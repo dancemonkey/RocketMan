@@ -19,7 +19,6 @@ class GameScene: SKScene {
   }
   
   func createPlayer() {
-    print("creating player")
     let playerTexture = SKTexture(imageNamed: "player")
     player = SKSpriteNode(texture: playerTexture)
     player.zPosition = 10
