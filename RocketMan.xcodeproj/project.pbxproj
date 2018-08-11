@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1053D099211F0CF20064B5BB /* RocketNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1053D098211F0CF20064B5BB /* RocketNode.swift */; };
+		1053D09F211F165D0064B5BB /* thrust.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 1053D09E211F165D0064B5BB /* thrust.m4a */; };
+		1053D0A5211F1A4B0064B5BB /* BackgroundTiles.sks in Resources */ = {isa = PBXBuildFile; fileRef = 1053D0A4211F1A4B0064B5BB /* BackgroundTiles.sks */; };
+		1053D0A7211F21F80064B5BB /* SKTileMapNode Scroll Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1053D0A6211F21F80064B5BB /* SKTileMapNode Scroll Extension.swift */; };
 		10C25FEF211DCF5C0005DA43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C25FEE211DCF5C0005DA43 /* AppDelegate.swift */; };
 		10C25FF1211DCF5C0005DA43 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 10C25FF0211DCF5C0005DA43 /* GameScene.sks */; };
 		10C25FF5211DCF5C0005DA43 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C25FF4211DCF5C0005DA43 /* GameScene.swift */; };
@@ -18,6 +22,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1053D098211F0CF20064B5BB /* RocketNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketNode.swift; sourceTree = "<group>"; };
+		1053D09D211F14CF0064B5BB /* Kenney Future Narrow.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Kenney Future Narrow.ttf"; sourceTree = "<group>"; };
+		1053D09E211F165D0064B5BB /* thrust.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = thrust.m4a; sourceTree = "<group>"; };
+		1053D0A4211F1A4B0064B5BB /* BackgroundTiles.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = BackgroundTiles.sks; sourceTree = "<group>"; };
+		1053D0A6211F21F80064B5BB /* SKTileMapNode Scroll Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKTileMapNode Scroll Extension.swift"; sourceTree = "<group>"; };
 		10C25FEB211DCF5C0005DA43 /* RocketMan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RocketMan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		10C25FEE211DCF5C0005DA43 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		10C25FF0211DCF5C0005DA43 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -41,6 +50,65 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1053D094211F0C5F0064B5BB /* Controller + Scene */ = {
+			isa = PBXGroup;
+			children = (
+				1053D097211F0CC60064B5BB /* GameScene */,
+				10C25FF6211DCF5C0005DA43 /* GameViewController.swift */,
+			);
+			path = "Controller + Scene";
+			sourceTree = "<group>";
+		};
+		1053D095211F0C6D0064B5BB /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1053D096211F0C750064B5BB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1053D098211F0CF20064B5BB /* RocketNode.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1053D097211F0CC60064B5BB /* GameScene */ = {
+			isa = PBXGroup;
+			children = (
+				10C25FF0211DCF5C0005DA43 /* GameScene.sks */,
+				10C25FF4211DCF5C0005DA43 /* GameScene.swift */,
+			);
+			path = GameScene;
+			sourceTree = "<group>";
+		};
+		1053D09B211F14AC0064B5BB /* Content */ = {
+			isa = PBXGroup;
+			children = (
+				10EF0A7A211DD10D00CF6F28 /* exhaust.sks */,
+				1053D09E211F165D0064B5BB /* thrust.m4a */,
+				1053D0A4211F1A4B0064B5BB /* BackgroundTiles.sks */,
+			);
+			path = Content;
+			sourceTree = "<group>";
+		};
+		1053D09C211F14BE0064B5BB /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				1053D09D211F14CF0064B5BB /* Kenney Future Narrow.ttf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
+		1053D0A8211F24540064B5BB /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1053D0A6211F21F80064B5BB /* SKTileMapNode Scroll Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		10C25FE2211DCF5C0005DA43 = {
 			isa = PBXGroup;
 			children = (
@@ -60,15 +128,17 @@
 		10C25FED211DCF5C0005DA43 /* RocketMan */ = {
 			isa = PBXGroup;
 			children = (
+				1053D0A8211F24540064B5BB /* Extensions */,
+				1053D09C211F14BE0064B5BB /* Font */,
+				1053D09B211F14AC0064B5BB /* Content */,
+				1053D096211F0C750064B5BB /* Model */,
+				1053D095211F0C6D0064B5BB /* View */,
+				1053D094211F0C5F0064B5BB /* Controller + Scene */,
 				10C25FEE211DCF5C0005DA43 /* AppDelegate.swift */,
-				10C25FF0211DCF5C0005DA43 /* GameScene.sks */,
-				10C25FF4211DCF5C0005DA43 /* GameScene.swift */,
-				10C25FF6211DCF5C0005DA43 /* GameViewController.swift */,
 				10C25FF8211DCF5C0005DA43 /* Main.storyboard */,
 				10C25FFB211DCF5F0005DA43 /* Assets.xcassets */,
 				10C25FFD211DCF5F0005DA43 /* LaunchScreen.storyboard */,
 				10C26000211DCF5F0005DA43 /* Info.plist */,
-				10EF0A7A211DD10D00CF6F28 /* exhaust.sks */,
 			);
 			path = RocketMan;
 			sourceTree = "<group>";
@@ -133,6 +203,8 @@
 			files = (
 				10C25FFA211DCF5C0005DA43 /* Main.storyboard in Resources */,
 				10EF0A7B211DD10D00CF6F28 /* exhaust.sks in Resources */,
+				1053D0A5211F1A4B0064B5BB /* BackgroundTiles.sks in Resources */,
+				1053D09F211F165D0064B5BB /* thrust.m4a in Resources */,
 				10C25FF1211DCF5C0005DA43 /* GameScene.sks in Resources */,
 				10C25FFC211DCF5F0005DA43 /* Assets.xcassets in Resources */,
 				10C25FFF211DCF5F0005DA43 /* LaunchScreen.storyboard in Resources */,
@@ -147,8 +219,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				10C25FF5211DCF5C0005DA43 /* GameScene.swift in Sources */,
+				1053D099211F0CF20064B5BB /* RocketNode.swift in Sources */,
 				10C25FF7211DCF5C0005DA43 /* GameViewController.swift in Sources */,
 				10C25FEF211DCF5C0005DA43 /* AppDelegate.swift in Sources */,
+				1053D0A7211F21F80064B5BB /* SKTileMapNode Scroll Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

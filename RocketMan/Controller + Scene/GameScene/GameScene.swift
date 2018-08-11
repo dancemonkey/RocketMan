@@ -11,16 +11,27 @@ import GameplayKit
 
 class GameScene: SKScene {
   
-  var player: SKSpriteNode!
+  var player: RocketNode!
   var exhaustPlume: SKEmitterNode?
+  var background: SKTileMapNode!
+  var thrusting: Bool = false {
+    didSet {
+      if thrusting {
+        background.thrust()
+      } else {
+        background.stopThrust()
+      }
+    }
+  }
 
   override func didMove(to view: SKView) {
     createPlayer()
+    createBackground()
+    
   }
   
   func createPlayer() {
-    let playerTexture = SKTexture(imageNamed: "player")
-    player = SKSpriteNode(texture: playerTexture)
+    player = RocketNode()
     player.zPosition = 10
     player.position = CGPoint(x: frame.midX, y: frame.midY)
     addChild(player)
@@ -31,27 +42,24 @@ class GameScene: SKScene {
 //    player.physicsBody?.collisionBitMask = 0
   }
   
-  func createPlume() {
-    if let plume = SKEmitterNode(fileNamed: "exhaust") {
-      exhaustPlume = plume
-      exhaustPlume!.position = player.position
-      exhaustPlume!.position.y = plume.position.y - (player.size.height/2)
-      addChild(exhaustPlume!)
+  func createBackground() {
+    guard let spaceBg = childNode(withName: "starBackground") as? SKTileMapNode else {
+      fatalError("background not loaded")
     }
-  }
-  
-  func removePlume() {
-    if exhaustPlume != nil {
-      exhaustPlume?.removeFromParent()
-    }
+    self.background = spaceBg
+    background.zPosition = -30
   }
   
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    createPlume()
+    player.createPlume()
+    thrusting = true
+//    createPlume()
   }
   
   override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-    removePlume()
+    player.removePlume()
+    thrusting = false
+//    removePlume()
   }
   
 }
