@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		104DE41121206F1100AD4D38 /* EnergyDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104DE41021206F1100AD4D38 /* EnergyDisplay.swift */; };
+		104DE413212072F200AD4D38 /* UIRocketDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104DE412212072F200AD4D38 /* UIRocketDelegate.swift */; };
 		1053D099211F0CF20064B5BB /* RocketNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1053D098211F0CF20064B5BB /* RocketNode.swift */; };
 		1053D09F211F165D0064B5BB /* thrust.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 1053D09E211F165D0064B5BB /* thrust.m4a */; };
 		1053D0A5211F1A4B0064B5BB /* BackgroundTiles.sks in Resources */ = {isa = PBXBuildFile; fileRef = 1053D0A4211F1A4B0064B5BB /* BackgroundTiles.sks */; };
@@ -22,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		104DE41021206F1100AD4D38 /* EnergyDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnergyDisplay.swift; sourceTree = "<group>"; };
+		104DE412212072F200AD4D38 /* UIRocketDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIRocketDelegate.swift; sourceTree = "<group>"; };
 		1053D098211F0CF20064B5BB /* RocketNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketNode.swift; sourceTree = "<group>"; };
 		1053D09D211F14CF0064B5BB /* Kenney Future Narrow.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Kenney Future Narrow.ttf"; sourceTree = "<group>"; };
 		1053D09E211F165D0064B5BB /* thrust.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = thrust.m4a; sourceTree = "<group>"; };
@@ -70,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				1053D098211F0CF20064B5BB /* RocketNode.swift */,
+				104DE41021206F1100AD4D38 /* EnergyDisplay.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -101,12 +106,13 @@
 			path = Font;
 			sourceTree = "<group>";
 		};
-		1053D0A8211F24540064B5BB /* Extensions */ = {
+		1053D0A8211F24540064B5BB /* Extensions + Protocols */ = {
 			isa = PBXGroup;
 			children = (
 				1053D0A6211F21F80064B5BB /* SKTileMapNode Scroll Extension.swift */,
+				104DE412212072F200AD4D38 /* UIRocketDelegate.swift */,
 			);
-			path = Extensions;
+			path = "Extensions + Protocols";
 			sourceTree = "<group>";
 		};
 		10C25FE2211DCF5C0005DA43 = {
@@ -128,7 +134,7 @@
 		10C25FED211DCF5C0005DA43 /* RocketMan */ = {
 			isa = PBXGroup;
 			children = (
-				1053D0A8211F24540064B5BB /* Extensions */,
+				1053D0A8211F24540064B5BB /* Extensions + Protocols */,
 				1053D09C211F14BE0064B5BB /* Font */,
 				1053D09B211F14AC0064B5BB /* Content */,
 				1053D096211F0C750064B5BB /* Model */,
@@ -221,7 +227,9 @@
 				10C25FF5211DCF5C0005DA43 /* GameScene.swift in Sources */,
 				1053D099211F0CF20064B5BB /* RocketNode.swift in Sources */,
 				10C25FF7211DCF5C0005DA43 /* GameViewController.swift in Sources */,
+				104DE413212072F200AD4D38 /* UIRocketDelegate.swift in Sources */,
 				10C25FEF211DCF5C0005DA43 /* AppDelegate.swift in Sources */,
+				104DE41121206F1100AD4D38 /* EnergyDisplay.swift in Sources */,
 				1053D0A7211F21F80064B5BB /* SKTileMapNode Scroll Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

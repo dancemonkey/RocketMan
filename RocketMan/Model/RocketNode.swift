@@ -14,12 +14,16 @@ class RocketNode: SKSpriteNode {
   private var exhaustPlume: SKEmitterNode?
   private var thrusterAudio: SKAudioNode?
   private var energy: Double = 100
+  var energyLevel: Double {
+    return energy
+  }
   private var velocity: Double?
   private var thrusting: Bool = false {
     didSet {
       if thrusting {
         let consume = SKAction.run {
           self.energy = self.energy - 1
+          self.uiDelegate?.setEnergy(to: self.energy)
         }
         let wait = SKAction.wait(forDuration: 1)
         let sequence = SKAction.sequence([consume, wait])
@@ -28,12 +32,12 @@ class RocketNode: SKSpriteNode {
       } else {
         if self.action(forKey: "consumingEnergy") != nil {
           self.removeAction(forKey: "consumingEnergy")
-          print("stopped consuming energy, at: \(energy)")
         }
       }
       
     }
   }
+  weak var uiDelegate: UIRocketDelegate?
   
   init() {
     let playerTexture = SKTexture(imageNamed: "player")

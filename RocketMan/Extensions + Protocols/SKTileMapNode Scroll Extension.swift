@@ -20,7 +20,7 @@ extension SKTileMapNode {
   }
   
   func stopThrust() {
-    if let thrusting = self.action(forKey: "thrusting") {
+    if self.action(forKey: "thrusting") != nil {
       let slow = SKAction.speed(to: 0.0, duration: 1.0)
       let stop = SKAction.run {
         self.removeAllActions()

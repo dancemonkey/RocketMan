@@ -9,17 +9,18 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, UIRocketDelegate {
   
   var player: RocketNode!
+  var energyDisplay: EnergyDisplay!
   var exhaustPlume: SKEmitterNode?
   var background: SKTileMapNode!
   var thrusting: Bool = false {
     didSet {
       if thrusting {
-        background.thrust()
+        thrust()
       } else {
-        background.stopThrust()
+        stopThrust()
       }
     }
   }
@@ -27,6 +28,7 @@ class GameScene: SKScene {
   override func didMove(to view: SKView) {
     createBackground()
     createPlayer()
+    createEnergyDisplay()
   }
   
   func createPlayer() {
@@ -34,6 +36,7 @@ class GameScene: SKScene {
     player.zPosition = 10
     player.position = CGPoint(x: frame.midX, y: frame.midY)
     player.setVelocity(to: Double(background.tileSize.height))
+    player.uiDelegate = self
     addChild(player)
     
 //    player.physicsBody = SKPhysicsBody(texture: playerTexture, size: playerTexture.size())
@@ -48,6 +51,26 @@ class GameScene: SKScene {
     }
     self.background = spaceBg
     background.zPosition = -30
+  }
+  
+  func createEnergyDisplay() {
+    energyDisplay = EnergyDisplay()
+    energyDisplay.zPosition = 0
+    energyDisplay.position = CGPoint(x: 5, y: 5)
+    addChild(energyDisplay)
+  }
+  
+  func thrust() {
+    background.thrust()
+  }
+  
+  func stopThrust() {
+    background.stopThrust()
+  }
+  
+  func setEnergy(to amount: Double) {
+    self.energyDisplay.setEnergy(to: amount)
+    print("energy display set to: \(energyDisplay.currentEnergy)")
   }
   
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
