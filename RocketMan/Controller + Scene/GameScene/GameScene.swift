@@ -25,15 +25,15 @@ class GameScene: SKScene {
   }
 
   override func didMove(to view: SKView) {
-    createPlayer()
     createBackground()
-    
+    createPlayer()
   }
   
   func createPlayer() {
     player = RocketNode()
     player.zPosition = 10
     player.position = CGPoint(x: frame.midX, y: frame.midY)
+    player.setVelocity(to: Double(background.tileSize.height))
     addChild(player)
     
 //    player.physicsBody = SKPhysicsBody(texture: playerTexture, size: playerTexture.size())
