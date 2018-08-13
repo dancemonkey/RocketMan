@@ -11,12 +11,12 @@ import SpriteKit
 
 class EnergyDisplay: SKSpriteNode {
   
-  private var _lowFuelThreshold: Double = 25
+  private var _lowEnergyThreshold: Double = 25
   private var _energyLevel: Double = 100 {
     willSet {
-      if newValue < _lowFuelThreshold && !_lowFuelFlashing {
+      if newValue < _lowEnergyThreshold && !_lowFuelFlashing {
         _lowFuelFlashing = true
-      } else if newValue > _lowFuelThreshold {
+      } else if newValue > _lowEnergyThreshold {
         _lowFuelFlashing = false
       }
     }
@@ -78,13 +78,13 @@ class EnergyDisplay: SKSpriteNode {
     }
     let sequence = SKAction.sequence([dangerColor, wait, originalColor, wait])
     let repeatForever = SKAction.repeatForever(sequence)
-    self._outerRect.run(repeatForever, withKey: "lowFuelFlashing")
+    self._outerRect.run(repeatForever, withKey: "lowEnergyFlashing")
     print("I should be flashing")
   }
   
   func stopFlashing() {
-    if self._outerRect.action(forKey: "lowFuelFlashing") != nil {
-      self._outerRect.removeAction(forKey: "lowFuelFlashing")
+    if self._outerRect.action(forKey: "lowEnergyFlashing") != nil {
+      self._outerRect.removeAction(forKey: "lowEnergyFlashing")
       self._outerRect.strokeColor = .white
       print("I should be done flashing")
     }
