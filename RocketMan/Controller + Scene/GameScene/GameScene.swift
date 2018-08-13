@@ -70,7 +70,6 @@ class GameScene: SKScene, UIRocketDelegate {
   
   func setEnergy(to amount: Double) {
     self.energyDisplay.setEnergy(to: amount)
-    print("energy display set to: \(energyDisplay.currentEnergy)")
   }
   
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

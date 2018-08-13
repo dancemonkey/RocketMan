@@ -11,22 +11,26 @@ import SpriteKit
 
 class RocketNode: SKSpriteNode {
   
-  private var exhaustPlume: SKEmitterNode?
-  private var thrusterAudio: SKAudioNode?
-  private var energy: Double = 100
+  private var _exhaustPlume: SKEmitterNode?
+  private var _thrusterAudio: SKAudioNode?
+  private var _energyLevel: Double = 100
   var energyLevel: Double {
-    return energy
+    return _energyLevel
   }
-  private var velocity: Double?
-  private var thrusting: Bool = false {
+  private var _velocity: Double?
+  private var _thrusting: Bool = false {
     didSet {
-      if thrusting {
+      if _thrusting {
         let consume = SKAction.run {
-          self.energy = self.energy - 1
-          self.uiDelegate?.setEnergy(to: self.energy)
+          if self._energyLevel > 0 {
+            self._energyLevel = self._energyLevel - 1
+          } else {
+            self._energyLevel = 0
+          }
+          self.uiDelegate?.setEnergy(to: self._energyLevel)
         }
         let wait = SKAction.wait(forDuration: 1)
-        let sequence = SKAction.sequence([consume, wait])
+        let sequence = SKAction.sequence([wait, consume])
         let runForever = SKAction.repeatForever(sequence)
         self.run(runForever, withKey: "consumingEnergy")
       } else {
@@ -51,30 +55,30 @@ class RocketNode: SKSpriteNode {
   }
   
   func setVelocity(to vel: Double) {
-    self.velocity = vel
+    self._velocity = vel
   }
   
   func createPlume() {
-    self.thrusting = true
+    self._thrusting = true
     if let plume = SKEmitterNode(fileNamed: "exhaust") {
-      exhaustPlume = plume
-      exhaustPlume!.position.y = plume.position.y - ((self.size.height/2) + 15)
-      exhaustPlume?.zPosition = 11
-      addChild(exhaustPlume!)
+      _exhaustPlume = plume
+      _exhaustPlume!.position.y = plume.position.y - ((self.size.height/2) + 15)
+      _exhaustPlume?.zPosition = 11
+      addChild(_exhaustPlume!)
     }
     if let soundURL = Bundle.main.url(forResource: "thrust", withExtension: "m4a") {
-      thrusterAudio = SKAudioNode(url: soundURL)
-      addChild(thrusterAudio!)
+      _thrusterAudio = SKAudioNode(url: soundURL)
+      addChild(_thrusterAudio!)
     }
   }
   
   func removePlume() {
-    self.thrusting = false
-    if exhaustPlume != nil {
-      exhaustPlume?.removeFromParent()
+    self._thrusting = false
+    if _exhaustPlume != nil {
+      _exhaustPlume?.removeFromParent()
     }
-    if thrusterAudio != nil {
-      thrusterAudio?.removeFromParent()
+    if _thrusterAudio != nil {
+      _thrusterAudio?.removeFromParent()
     }
   }
   
