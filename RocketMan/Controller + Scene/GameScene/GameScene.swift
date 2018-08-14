@@ -12,7 +12,7 @@ import GameplayKit
 class GameScene: SKScene, UIRocketDelegate {
   
   var player: RocketNode!
-  var energyDisplay: EnergyDisplay!
+  var shieldEnergyDisplay: EnergyDisplay!
   var exhaustPlume: SKEmitterNode?
   var background: SKTileMapNode!
   var thrusting: Bool = false {
@@ -24,11 +24,15 @@ class GameScene: SKScene, UIRocketDelegate {
       }
     }
   }
-
+  
   override func didMove(to view: SKView) {
     createBackground()
     createPlayer()
     createEnergyDisplay()
+    
+    // temp for now, will need to tap to start game eventually
+    player.createPlume()
+    thrusting = true
   }
   
   func createPlayer() {
@@ -39,10 +43,10 @@ class GameScene: SKScene, UIRocketDelegate {
     player.uiDelegate = self
     addChild(player)
     
-//    player.physicsBody = SKPhysicsBody(texture: playerTexture, size: playerTexture.size())
-//    player.physicsBody!.contactTestBitMask = player.physicsBody!.collisionBitMask
-//    player.physicsBody?.isDynamic = false
-//    player.physicsBody?.collisionBitMask = 0
+    //    player.physicsBody = SKPhysicsBody(texture: playerTexture, size: playerTexture.size())
+    //    player.physicsBody!.contactTestBitMask = player.physicsBody!.collisionBitMask
+    //    player.physicsBody?.isDynamic = false
+    //    player.physicsBody?.collisionBitMask = 0
   }
   
   func createBackground() {
@@ -54,10 +58,10 @@ class GameScene: SKScene, UIRocketDelegate {
   }
   
   func createEnergyDisplay() {
-    energyDisplay = EnergyDisplay()
-    energyDisplay.zPosition = 0
-    energyDisplay.position = CGPoint(x: 5, y: 5)
-    addChild(energyDisplay)
+    shieldEnergyDisplay = EnergyDisplay(withColor: .blue)
+    shieldEnergyDisplay.zPosition = 0
+    shieldEnergyDisplay.position = CGPoint(x: 5, y: 5)
+    addChild(shieldEnergyDisplay)
   }
   
   func thrust() {
@@ -69,19 +73,17 @@ class GameScene: SKScene, UIRocketDelegate {
   }
   
   func setEnergy(to amount: Double) {
-    self.energyDisplay.setEnergy(to: amount)
+    self.shieldEnergyDisplay.setEnergy(to: amount)
   }
   
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    player.createPlume()
-    thrusting = true
-//    createPlume()
+    player.activateShields()
+    //    player.createPlume()
   }
   
   override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-    player.removePlume()
-    thrusting = false
-//    removePlume()
+    player.deactivateShields()
+    //    player.removePlume()
   }
   
 }

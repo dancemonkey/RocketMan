@@ -14,10 +14,10 @@ class EnergyDisplay: SKSpriteNode {
   private var _lowEnergyThreshold: Double = 25
   private var _energyLevel: Double = 100 {
     willSet {
-      if newValue < _lowEnergyThreshold && !_lowFuelFlashing {
-        _lowFuelFlashing = true
+      if newValue < _lowEnergyThreshold && !_lowEnergyFlashing {
+        _lowEnergyFlashing = true
       } else if newValue > _lowEnergyThreshold {
-        _lowFuelFlashing = false
+        _lowEnergyFlashing = false
       }
     }
   }
@@ -26,7 +26,7 @@ class EnergyDisplay: SKSpriteNode {
   }
   private var _energyBar: SKShapeNode?
   private var _outerRect: SKShapeNode!
-  private var _lowFuelFlashing: Bool = false {
+  private var _lowEnergyFlashing: Bool = false {
     willSet {
       if newValue == true {
         startFlashing()
@@ -36,11 +36,11 @@ class EnergyDisplay: SKSpriteNode {
     }
   }
   
-  init() {
+  init(withColor color: UIColor) {
     _outerRect = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 22, height: 102), cornerRadius: 4.0)
     _outerRect.strokeColor = .white
     _energyBar = SKShapeNode(rect: CGRect(x: 2, y: 2, width: 18, height: _energyLevel), cornerRadius: 4.0)
-    _energyBar?.fillColor = .red
+    _energyBar?.fillColor = color
     super.init(texture: nil, color: .clear, size: CGSize(width: 20, height: 100))
     self.addChild(_outerRect)
     self.addChild(_energyBar!)

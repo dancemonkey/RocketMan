@@ -12,35 +12,21 @@ import SpriteKit
 class RocketNode: SKSpriteNode {
   
   private var _exhaustPlume: SKEmitterNode?
+  private var _shield: SKSpriteNode?
   private var _thrusterAudio: SKAudioNode?
-  private var _energyLevel: Double = 100
-  var energyLevel: Double {
-    return _energyLevel
-  }
-  private var _velocity: Double?
-  private var _thrusting: Bool = false {
+  private var _shieldEnergyLevel: Double = 100 {
     didSet {
-      if _thrusting {
-        let consume = SKAction.run {
-          if self._energyLevel > 0 {
-            self._energyLevel = self._energyLevel - 1
-          } else {
-            self._energyLevel = 0
-          }
-          self.uiDelegate?.setEnergy(to: self._energyLevel)
-        }
-        let wait = SKAction.wait(forDuration: 1)
-        let sequence = SKAction.sequence([wait, consume])
-        let runForever = SKAction.repeatForever(sequence)
-        self.run(runForever, withKey: "consumingEnergy")
-      } else {
-        if self.action(forKey: "consumingEnergy") != nil {
-          self.removeAction(forKey: "consumingEnergy")
-        }
+      if _shieldEnergyLevel >= 100 {
+        stopRechargingShields()
+        _shieldEnergyLevel = 100
       }
-      
     }
   }
+  var shieldEnergyLevel: Double {
+    return _shieldEnergyLevel
+  }
+  private var _velocity: Double?
+  private var _thrusting: Bool = false
   weak var uiDelegate: UIRocketDelegate?
   
   init() {
@@ -54,8 +40,62 @@ class RocketNode: SKSpriteNode {
     fatalError("init(coder:) has not been implemented")
   }
   
+  func rechargeShields() {
+    let wait = SKAction.wait(forDuration: 1.2)
+    let recharge = SKAction.run {
+      self._shieldEnergyLevel = self._shieldEnergyLevel + 1
+      self.uiDelegate?.setEnergy(to: self._shieldEnergyLevel)
+    }
+    let sequence = SKAction.sequence([wait, recharge])
+    let loop = SKAction.repeatForever(sequence)
+    self.run(loop, withKey: "rechargingShields")
+  }
+  
+  func stopRechargingShields() {
+    if action(forKey: "rechargingShields") != nil {
+      self.removeAction(forKey: "rechargingShields")
+    }
+  }
+  
+  func drainShields() {
+    let wait = SKAction.wait(forDuration: 1.0)
+    let drain = SKAction.run {
+      self._shieldEnergyLevel = self._shieldEnergyLevel - 1
+      self.uiDelegate?.setEnergy(to: self._shieldEnergyLevel)
+    }
+    let sequence = SKAction.sequence([wait, drain])
+    let loop = SKAction.repeatForever(sequence)
+    self.run(loop, withKey: "drainingShields")
+  }
+  
+  func stopDrainingShields() {
+    if action(forKey: "drainingShields") != nil {
+      self.removeAction(forKey: "drainingShields")
+    }
+  }
+  
   func setVelocity(to vel: Double) {
     self._velocity = vel
+  }
+  
+  func activateShields() {
+    let shieldTexture = SKTexture(imageNamed: "shield")
+    _shield = SKSpriteNode(texture: shieldTexture)
+    _shield?.size = CGSize(width: _shield!.size.width, height: _shield!.size.height * 2)
+    _shield?.zPosition = self.zPosition + 1
+    _shield?.color = .blue
+    _shield?.colorBlendFactor = 0.5
+    addChild(_shield!)
+    stopRechargingShields()
+    drainShields()
+  }
+  
+  func deactivateShields() {
+    if _shield != nil {
+      _shield?.removeFromParent()
+    }
+    stopDrainingShields()
+    rechargeShields()
   }
   
   func createPlume() {
