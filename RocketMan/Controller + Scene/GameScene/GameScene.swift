@@ -10,7 +10,7 @@ import SpriteKit
 import GameplayKit
 import CoreMotion
 
-class GameScene: SKScene, UIRocketDelegate {
+class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
   
   var player: RocketNode!
   var shieldEnergyDisplay: EnergyDisplay!
@@ -27,8 +27,8 @@ class GameScene: SKScene, UIRocketDelegate {
   }
   var motionManager: CMMotionManager!
   var borderLimits: (left: CGFloat, right: CGFloat) {
-    let leftX: CGFloat = player.size.width
-    let rightX: CGFloat = self.size.width - leftX
+    let leftX: CGFloat = 0
+    let rightX: CGFloat = self.size.width
     return (left: leftX, right: rightX)
   }
   
@@ -36,9 +36,12 @@ class GameScene: SKScene, UIRocketDelegate {
     createBackground()
     createPlayer()
     createEnergyDisplay()
+    createBoundaries()
     motionManager = CMMotionManager()
     motionManager.startAccelerometerUpdates()
+    
     physicsWorld.gravity = .zero
+    physicsWorld.contactDelegate = self
     
     // temp for now, will need to tap to start game eventually
     player.createPlume()
@@ -52,11 +55,11 @@ class GameScene: SKScene, UIRocketDelegate {
     #else
     if let accelerometerData = motionManager.accelerometerData {
       physicsWorld.gravity = CGVector(dx: accelerometerData.acceleration.x * 5, dy: 0.0)
-      if player.position.x <= borderLimits.left {
-        player.position.x = borderLimits.left
-      } else if player.position.x >= borderLimits.right {
-        player.position.x = borderLimits.right
-      }
+//      if player.position.x <= borderLimits.left {
+//        player.position.x = borderLimits.left
+//      } else if player.position.x >= borderLimits.right {
+//        player.position.x = borderLimits.right
+//      }
     }
     #endif
   }
@@ -65,14 +68,14 @@ class GameScene: SKScene, UIRocketDelegate {
     player = RocketNode()
     player.zPosition = 10
     player.position = CGPoint(x: frame.midX, y: frame.midY - player.size.height)
-    player.setVelocity(to: Double(background.tileSize.height))
     player.uiDelegate = self
     addChild(player)
     
-    player.physicsBody = SKPhysicsBody(texture: player.texture!, size: player.texture!.size())
+    player.physicsBody = SKPhysicsBody(texture: player.texture!, size: player.size)
     player.physicsBody!.contactTestBitMask = player.physicsBody!.collisionBitMask
-    player.physicsBody?.isDynamic = true
-    player.physicsBody?.collisionBitMask = 0
+    player.physicsBody!.isDynamic = true
+    player.physicsBody?.allowsRotation = false
+    player.physicsBody?.restitution = 0
   }
   
   func createBackground() {
@@ -88,6 +91,11 @@ class GameScene: SKScene, UIRocketDelegate {
     shieldEnergyDisplay.zPosition = 0
     shieldEnergyDisplay.position = CGPoint(x: 5, y: 5)
     addChild(shieldEnergyDisplay)
+  }
+  
+  func createBoundaries() {
+    self.physicsBody = SKPhysicsBody(edgeLoopFrom: self.frame)
+    self.physicsBody?.restitution = 0
   }
   
   func thrust() {
@@ -108,6 +116,10 @@ class GameScene: SKScene, UIRocketDelegate {
   
   override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
     player.deactivateShields()
+  }
+  
+  func didBegin(_ contact: SKPhysicsContact) {
+    print("ship contacted edge")
   }
   
 }
