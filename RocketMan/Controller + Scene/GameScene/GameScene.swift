@@ -8,6 +8,7 @@
 
 import SpriteKit
 import GameplayKit
+import CoreMotion
 
 class GameScene: SKScene, UIRocketDelegate {
   
@@ -24,29 +25,54 @@ class GameScene: SKScene, UIRocketDelegate {
       }
     }
   }
+  var motionManager: CMMotionManager!
+  var borderLimits: (left: CGFloat, right: CGFloat) {
+    let leftX: CGFloat = player.size.width
+    let rightX: CGFloat = self.size.width - leftX
+    return (left: leftX, right: rightX)
+  }
   
   override func didMove(to view: SKView) {
     createBackground()
     createPlayer()
     createEnergyDisplay()
+    motionManager = CMMotionManager()
+    motionManager.startAccelerometerUpdates()
+    physicsWorld.gravity = .zero
     
     // temp for now, will need to tap to start game eventually
     player.createPlume()
     thrusting = true
   }
   
+  override func update(_ currentTime: TimeInterval) {
+    super.update(currentTime)
+    #if targetEnvironment(simulator)
+    print("no tilting in simulator, try this on a device")
+    #else
+    if let accelerometerData = motionManager.accelerometerData {
+      physicsWorld.gravity = CGVector(dx: accelerometerData.acceleration.x * 5, dy: 0.0)
+      if player.position.x <= borderLimits.left {
+        player.position.x = borderLimits.left
+      } else if player.position.x >= borderLimits.right {
+        player.position.x = borderLimits.right
+      }
+    }
+    #endif
+  }
+  
   func createPlayer() {
     player = RocketNode()
     player.zPosition = 10
-    player.position = CGPoint(x: frame.midX, y: frame.midY)
+    player.position = CGPoint(x: frame.midX, y: frame.midY - player.size.height)
     player.setVelocity(to: Double(background.tileSize.height))
     player.uiDelegate = self
     addChild(player)
     
-    //    player.physicsBody = SKPhysicsBody(texture: playerTexture, size: playerTexture.size())
-    //    player.physicsBody!.contactTestBitMask = player.physicsBody!.collisionBitMask
-    //    player.physicsBody?.isDynamic = false
-    //    player.physicsBody?.collisionBitMask = 0
+    player.physicsBody = SKPhysicsBody(texture: player.texture!, size: player.texture!.size())
+    player.physicsBody!.contactTestBitMask = player.physicsBody!.collisionBitMask
+    player.physicsBody?.isDynamic = true
+    player.physicsBody?.collisionBitMask = 0
   }
   
   func createBackground() {
@@ -78,12 +104,10 @@ class GameScene: SKScene, UIRocketDelegate {
   
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     player.activateShields()
-    //    player.createPlume()
   }
   
   override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
     player.deactivateShields()
-    //    player.removePlume()
   }
   
 }

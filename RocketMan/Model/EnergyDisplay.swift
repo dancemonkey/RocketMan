@@ -60,14 +60,6 @@ class EnergyDisplay: SKSpriteNode {
     }
   }
   
-  func reduceEnergy(by level: Double) {
-    
-  }
-  
-  func raiseEnergy(by level: Double) {
-    
-  }
-  
   func startFlashing() {
     let originalColor = SKAction.run {
       self._outerRect.strokeColor = .white

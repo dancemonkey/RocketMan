@@ -60,7 +60,7 @@ class RocketNode: SKSpriteNode {
   func drainShields() {
     let wait = SKAction.wait(forDuration: 1.0)
     let drain = SKAction.run {
-      self._shieldEnergyLevel = self._shieldEnergyLevel - 1
+      self._shieldEnergyLevel = self._shieldEnergyLevel - 2
       self.uiDelegate?.setEnergy(to: self._shieldEnergyLevel)
     }
     let sequence = SKAction.sequence([wait, drain])
