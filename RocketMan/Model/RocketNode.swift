@@ -12,11 +12,7 @@ import SpriteKit
 class RocketNode: SKSpriteNode {
   
   private var _exhaustPlume: SKEmitterNode?
-  var shieldsUp: Bool = false {
-    didSet {
-      shieldsUp == true ? print("shields up") : print("shields down")
-    }
-  }
+  var shieldsUp: Bool = false
   private var _shield: SKSpriteNode?
   private var _thrusterAudio: SKAudioNode?
   private var _shieldEnergyLevel: Double = 100 {

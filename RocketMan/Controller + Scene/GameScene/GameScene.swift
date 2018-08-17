@@ -52,6 +52,7 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
     // temp for now, will need to tap to start game eventually
     player.createPlume()
     thrusting = true
+    createAsteroid()
   }
   
   override func update(_ currentTime: TimeInterval) {
@@ -60,10 +61,15 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
     print("no tilting in simulator, try this on a device")
     #else
     if let accelerometerData = motionManager.accelerometerData {
-//      physicsWorld.gravity = CGVector(dx: accelerometerData.acceleration.x * 5, dy: 0.0)
       player.physicsBody?.applyImpulse(CGVector(dx: accelerometerData.acceleration.x * 10, dy: 0.0))
     }
     #endif
+  }
+  
+  func createAsteroid() {
+    let asteroid = Asteroid()
+    asteroid.position = CGPoint(x: frame.midX, y: frame.midY)
+    addChild(asteroid)
   }
   
   func createPlayer() {
@@ -126,6 +132,7 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
   }
   
   func didBegin(_ contact: SKPhysicsContact) {
+    
   }
   
 }
