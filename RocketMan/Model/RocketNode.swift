@@ -12,6 +12,11 @@ import SpriteKit
 class RocketNode: SKSpriteNode {
   
   private var _exhaustPlume: SKEmitterNode?
+  var shieldsUp: Bool = false {
+    didSet {
+      shieldsUp == true ? print("shields up") : print("shields down")
+    }
+  }
   private var _shield: SKSpriteNode?
   private var _thrusterAudio: SKAudioNode?
   private var _shieldEnergyLevel: Double = 100 {
@@ -79,13 +84,16 @@ class RocketNode: SKSpriteNode {
   }
   
   func activateShields() {
-    let shieldTexture = SKTexture(imageNamed: "shield")
-    _shield = SKSpriteNode(texture: shieldTexture)
-    _shield?.size = CGSize(width: _shield!.size.width, height: _shield!.size.height * 2)
-    _shield?.zPosition = self.zPosition + 1
-    _shield?.color = .blue
-    _shield?.colorBlendFactor = 0.5
+    if _shield == nil {
+      let shieldTexture = SKTexture(imageNamed: "shield")
+      _shield = SKSpriteNode(texture: shieldTexture)
+      _shield?.size = CGSize(width: _shield!.size.width, height: _shield!.size.height * 2)
+      _shield?.zPosition = self.zPosition + 1
+      _shield?.color = .blue
+      _shield?.colorBlendFactor = 0.5
+    }
     addChild(_shield!)
+    shieldsUp = true
     stopRechargingShields()
     drainShields()
   }
@@ -94,6 +102,7 @@ class RocketNode: SKSpriteNode {
     if _shield != nil {
       _shield?.removeFromParent()
     }
+    shieldsUp = false
     stopDrainingShields()
     rechargeShields()
   }

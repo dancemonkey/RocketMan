@@ -10,6 +10,12 @@ import SpriteKit
 import GameplayKit
 import CoreMotion
 
+enum CollisionTypes: UInt32 {
+  case player = 1
+  case edge = 2
+  case asteroid = 4
+}
+
 class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
   
   var player: RocketNode!
@@ -54,12 +60,8 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
     print("no tilting in simulator, try this on a device")
     #else
     if let accelerometerData = motionManager.accelerometerData {
-      physicsWorld.gravity = CGVector(dx: accelerometerData.acceleration.x * 5, dy: 0.0)
-//      if player.position.x <= borderLimits.left {
-//        player.position.x = borderLimits.left
-//      } else if player.position.x >= borderLimits.right {
-//        player.position.x = borderLimits.right
-//      }
+//      physicsWorld.gravity = CGVector(dx: accelerometerData.acceleration.x * 5, dy: 0.0)
+      player.physicsBody?.applyImpulse(CGVector(dx: accelerometerData.acceleration.x * 10, dy: 0.0))
     }
     #endif
   }
@@ -69,6 +71,7 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
     player.zPosition = 10
     player.position = CGPoint(x: frame.midX, y: frame.midY - player.size.height)
     player.uiDelegate = self
+    player.name = "player"
     addChild(player)
     
     player.physicsBody = SKPhysicsBody(texture: player.texture!, size: player.size)
@@ -76,6 +79,8 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
     player.physicsBody!.isDynamic = true
     player.physicsBody?.allowsRotation = false
     player.physicsBody?.restitution = 0
+    player.physicsBody?.categoryBitMask = CollisionTypes.player.rawValue
+    player.physicsBody?.collisionBitMask = CollisionTypes.asteroid.rawValue | CollisionTypes.edge.rawValue
   }
   
   func createBackground() {
@@ -96,6 +101,8 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
   func createBoundaries() {
     self.physicsBody = SKPhysicsBody(edgeLoopFrom: self.frame)
     self.physicsBody?.restitution = 0
+    self.physicsBody?.categoryBitMask = CollisionTypes.edge.rawValue
+    self.physicsBody?.collisionBitMask = CollisionTypes.player.rawValue
   }
   
   func thrust() {
@@ -119,7 +126,6 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
   }
   
   func didBegin(_ contact: SKPhysicsContact) {
-    print("ship contacted edge")
   }
   
 }
