@@ -35,6 +35,14 @@ class RocketNode: SKSpriteNode {
     let originalSize = playerTexture.size()
     let newSize = CGSize(width: originalSize.width/2, height: originalSize.height/2)
     super.init(texture: playerTexture, color: .clear, size: newSize)
+    
+    self.physicsBody = SKPhysicsBody(texture: playerTexture, size: self.size)
+    self.physicsBody!.contactTestBitMask = self.physicsBody!.collisionBitMask
+    self.physicsBody!.isDynamic = true
+    self.physicsBody?.allowsRotation = false
+    self.physicsBody?.restitution = 0
+    self.physicsBody?.categoryBitMask = CollisionTypes.player.rawValue
+    self.physicsBody?.collisionBitMask = CollisionTypes.asteroid.rawValue | CollisionTypes.edge.rawValue    
   }
   
   required init?(coder aDecoder: NSCoder) {

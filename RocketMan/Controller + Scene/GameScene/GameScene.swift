@@ -37,6 +37,7 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
     let rightX: CGFloat = self.size.width
     return (left: leftX, right: rightX)
   }
+  var asteroids = [Asteroid]()
   
   override func didMove(to view: SKView) {
     createBackground()
@@ -52,11 +53,20 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
     // temp for now, will need to tap to start game eventually
     player.createPlume()
     thrusting = true
-    createAsteroid()
+    startAsteroidBelt()
   }
   
   override func update(_ currentTime: TimeInterval) {
     super.update(currentTime)
+    
+    for (index, asteroid) in asteroids.enumerated() {
+      asteroid.lifetime = asteroid.lifetime + 1
+      if asteroidOutOfBounds(asteroid) && asteroid.lifetime > asteroid.minLifetime {
+        asteroid.removeFromParent()
+        asteroids.remove(at: index)
+      }
+    }
+    
     #if targetEnvironment(simulator)
     print("no tilting in simulator, try this on a device")
     #else
@@ -66,10 +76,24 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
     #endif
   }
   
-  func createAsteroid() {
+  func startAsteroidBelt() {
+    let create = SKAction.run {
+      let xRand = GKRandomDistribution(lowestValue: 0, highestValue: Int(self.frame.width))
+      self.createAsteroid(at: CGPoint(x: xRand.nextInt(), y: Int(self.frame.height + 100)))
+    }
+    let randomCreate = GKRandomDistribution(forDieWithSideCount: 6)
+    let wait = SKAction.wait(forDuration: TimeInterval(randomCreate.nextInt()))
+    let sequence = SKAction.sequence([create, wait])
+    let repeatForever = SKAction.repeatForever(sequence)
+    run(repeatForever)
+  }
+  
+  func createAsteroid(at point: CGPoint) {
     let asteroid = Asteroid()
-    asteroid.position = CGPoint(x: frame.midX, y: frame.midY)
+    asteroid.position = point
     addChild(asteroid)
+    asteroids.append(asteroid)
+    asteroid.physicsBody?.applyImpulse(asteroid.randomVector())
   }
   
   func createPlayer() {
@@ -78,15 +102,9 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
     player.position = CGPoint(x: frame.midX, y: frame.midY - player.size.height)
     player.uiDelegate = self
     player.name = "player"
+    let constraint = SKConstraint.positionY(SKRange(lowerLimit: frame.midY - player.size.height, upperLimit: frame.midY - player.size.height))
+    player.constraints = [constraint]
     addChild(player)
-    
-    player.physicsBody = SKPhysicsBody(texture: player.texture!, size: player.size)
-    player.physicsBody!.contactTestBitMask = player.physicsBody!.collisionBitMask
-    player.physicsBody!.isDynamic = true
-    player.physicsBody?.allowsRotation = false
-    player.physicsBody?.restitution = 0
-    player.physicsBody?.categoryBitMask = CollisionTypes.player.rawValue
-    player.physicsBody?.collisionBitMask = CollisionTypes.asteroid.rawValue | CollisionTypes.edge.rawValue
   }
   
   func createBackground() {
@@ -109,6 +127,14 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
     self.physicsBody?.restitution = 0
     self.physicsBody?.categoryBitMask = CollisionTypes.edge.rawValue
     self.physicsBody?.collisionBitMask = CollisionTypes.player.rawValue
+  }
+  
+  func asteroidOutOfBounds(_ asteroid: Asteroid) -> Bool {
+    if self.intersects(asteroid) {
+      return false
+    } else {
+      return true
+    }
   }
   
   func thrust() {
