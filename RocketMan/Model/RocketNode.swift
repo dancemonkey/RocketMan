@@ -149,8 +149,7 @@ class RocketNode: SKSpriteNode {
       damageShields(by: Double(asteroid.massFactor!) * 2)
       print("shields damaged by \(Double(asteroid.massFactor!) * 2)")
     } else {
-      // destroy ship
-      print("ship destroyed")
+      uiDelegate?.destroyRocket()
     }
   }
   

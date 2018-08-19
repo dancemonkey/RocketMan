@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		100BB2C421290DD100006068 /* Explosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = 100BB2C321290DD100006068 /* Explosion.sks */; };
+		100BB2C62129109300006068 /* Smoke.sks in Resources */ = {isa = PBXBuildFile; fileRef = 100BB2C52129109300006068 /* Smoke.sks */; };
 		104DE41121206F1100AD4D38 /* EnergyDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104DE41021206F1100AD4D38 /* EnergyDisplay.swift */; };
 		104DE413212072F200AD4D38 /* UIRocketDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104DE412212072F200AD4D38 /* UIRocketDelegate.swift */; };
 		1053D099211F0CF20064B5BB /* RocketNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1053D098211F0CF20064B5BB /* RocketNode.swift */; };
@@ -26,6 +28,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		100BB2C321290DD100006068 /* Explosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Explosion.sks; sourceTree = "<group>"; };
+		100BB2C52129109300006068 /* Smoke.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Smoke.sks; sourceTree = "<group>"; };
 		104DE41021206F1100AD4D38 /* EnergyDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnergyDisplay.swift; sourceTree = "<group>"; };
 		104DE412212072F200AD4D38 /* UIRocketDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIRocketDelegate.swift; sourceTree = "<group>"; };
 		1053D098211F0CF20064B5BB /* RocketNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketNode.swift; sourceTree = "<group>"; };
@@ -100,6 +104,8 @@
 				1053D09E211F165D0064B5BB /* thrust.m4a */,
 				1053D0A4211F1A4B0064B5BB /* BackgroundTiles.sks */,
 				10AD21E52128F49900583C9F /* Assets.xcassets */,
+				100BB2C321290DD100006068 /* Explosion.sks */,
+				100BB2C52129109300006068 /* Smoke.sks */,
 			);
 			path = Content;
 			sourceTree = "<group>";
@@ -216,11 +222,13 @@
 				10C25FFA211DCF5C0005DA43 /* Main.storyboard in Resources */,
 				10EF0A7B211DD10D00CF6F28 /* exhaust.sks in Resources */,
 				1053D0A5211F1A4B0064B5BB /* BackgroundTiles.sks in Resources */,
+				100BB2C62129109300006068 /* Smoke.sks in Resources */,
 				1053D09F211F165D0064B5BB /* thrust.m4a in Resources */,
 				10C25FF1211DCF5C0005DA43 /* GameScene.sks in Resources */,
 				10C25FFC211DCF5F0005DA43 /* Assets.xcassets in Resources */,
 				10AD21E72128F49900583C9F /* Assets.xcassets in Resources */,
 				10C25FFF211DCF5F0005DA43 /* LaunchScreen.storyboard in Resources */,
+				100BB2C421290DD100006068 /* Explosion.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

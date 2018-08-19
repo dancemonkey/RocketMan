@@ -159,6 +159,17 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
     player.deactivateShields()
   }
   
+  func destroyRocket() {
+    print("rocket destroyed")
+    if let explosion = SKEmitterNode(fileNamed: "explosion") {
+      explosion.position = player.position
+      player.removePlume()
+      player.removeAllActions()
+      player.removeFromParent()
+      addChild(explosion)
+    }
+  }
+  
   func didBegin(_ contact: SKPhysicsContact) {
     
     if contact.bodyA.node == player || contact.bodyB.node == player {

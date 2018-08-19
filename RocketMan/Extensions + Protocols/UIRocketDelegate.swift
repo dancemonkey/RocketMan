@@ -10,4 +10,5 @@ import Foundation
 
 protocol UIRocketDelegate: class {
   func setEnergy(to amount: Double)
+  func destroyRocket()
 }
