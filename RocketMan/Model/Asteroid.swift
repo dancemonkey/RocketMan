@@ -14,6 +14,7 @@ class Asteroid: SKSpriteNode {
 
   var lifetime: Double = 0
   var minLifetime: Double = 360
+  var massFactor: CGFloat?
   
   init() {
     let rand = GKRandomDistribution(forDieWithSideCount: 10)
@@ -28,20 +29,16 @@ class Asteroid: SKSpriteNode {
     self.physicsBody?.allowsRotation = true
     self.physicsBody?.restitution = 0
     self.physicsBody?.categoryBitMask = CollisionTypes.asteroid.rawValue
-    self.physicsBody?.collisionBitMask = CollisionTypes.player.rawValue | CollisionTypes.asteroid.rawValue
+    self.physicsBody?.collisionBitMask = CollisionTypes.player.rawValue | CollisionTypes.asteroid.rawValue | CollisionTypes.shield.rawValue
+    self.physicsBody?.contactTestBitMask = CollisionTypes.player.rawValue | CollisionTypes.shield.rawValue
+    massFactor = self.physicsBody!.mass * 10
   }
   
   func randomVector() -> CGVector {
-    print("size: \(self.size), mass: \(self.physicsBody!.mass)")
     let xRand = GKRandomDistribution(lowestValue: -20, highestValue: 20)
     let yRand = GKRandomDistribution(lowestValue: -100, highestValue: -80)
-    if physicsBody!.mass > 0.8 {
-      return CGVector(dx: xRand.nextInt() * 6, dy: yRand.nextInt() * 6)
-    } else if physicsBody!.mass < 0.1 {
-      return CGVector(dx: CGFloat(xRand.nextInt()) * 0.75, dy: CGFloat(yRand.nextInt()) * 0.75)
-    } else {
-      return CGVector(dx: xRand.nextInt(), dy: yRand.nextInt())
-    }
+    
+    return CGVector(dx: CGFloat(xRand.nextInt()) * massFactor!, dy: CGFloat(yRand.nextInt()) * massFactor!)
   }
   
   required init?(coder aDecoder: NSCoder) {

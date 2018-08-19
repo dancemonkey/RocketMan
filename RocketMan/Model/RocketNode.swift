@@ -83,10 +83,6 @@ class RocketNode: SKSpriteNode {
     }
   }
   
-  func setVelocity(to vel: Double) {
-    self._velocity = vel
-  }
-  
   func activateShields() {
     if _shield == nil {
       let shieldTexture = SKTexture(imageNamed: "shield")
@@ -97,6 +93,11 @@ class RocketNode: SKSpriteNode {
       _shield?.colorBlendFactor = 0.5
     }
     addChild(_shield!)
+    _shield!.physicsBody = SKPhysicsBody(texture: _shield!.texture!, size: _shield!.size)
+    _shield!.physicsBody?.isDynamic = false
+    _shield!.physicsBody?.categoryBitMask = CollisionTypes.shield.rawValue
+    _shield!.physicsBody?.collisionBitMask = CollisionTypes.asteroid.rawValue
+    _shield!.physicsBody?.contactTestBitMask = CollisionTypes.asteroid.rawValue
     shieldsUp = true
     stopRechargingShields()
     drainShields()
@@ -104,6 +105,7 @@ class RocketNode: SKSpriteNode {
   
   func deactivateShields() {
     if _shield != nil {
+      _shield?.physicsBody = nil
       _shield?.removeFromParent()
     }
     shieldsUp = false

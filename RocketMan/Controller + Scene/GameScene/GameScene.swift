@@ -14,6 +14,7 @@ enum CollisionTypes: UInt32 {
   case player = 1
   case edge = 2
   case asteroid = 4
+  case shield = 8
 }
 
 class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
@@ -91,6 +92,7 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
   func createAsteroid(at point: CGPoint) {
     let asteroid = Asteroid()
     asteroid.position = point
+    asteroid.zPosition = -10
     addChild(asteroid)
     asteroids.append(asteroid)
     asteroid.physicsBody?.applyImpulse(asteroid.randomVector())
