@@ -13,6 +13,7 @@
 		1053D09F211F165D0064B5BB /* thrust.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 1053D09E211F165D0064B5BB /* thrust.m4a */; };
 		1053D0A5211F1A4B0064B5BB /* BackgroundTiles.sks in Resources */ = {isa = PBXBuildFile; fileRef = 1053D0A4211F1A4B0064B5BB /* BackgroundTiles.sks */; };
 		1053D0A7211F21F80064B5BB /* SKTileMapNode Scroll Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1053D0A6211F21F80064B5BB /* SKTileMapNode Scroll Extension.swift */; };
+		10AD21E72128F49900583C9F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10AD21E52128F49900583C9F /* Assets.xcassets */; };
 		10C25FEF211DCF5C0005DA43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C25FEE211DCF5C0005DA43 /* AppDelegate.swift */; };
 		10C25FF1211DCF5C0005DA43 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 10C25FF0211DCF5C0005DA43 /* GameScene.sks */; };
 		10C25FF5211DCF5C0005DA43 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C25FF4211DCF5C0005DA43 /* GameScene.swift */; };
@@ -32,6 +33,7 @@
 		1053D09E211F165D0064B5BB /* thrust.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = thrust.m4a; sourceTree = "<group>"; };
 		1053D0A4211F1A4B0064B5BB /* BackgroundTiles.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = BackgroundTiles.sks; sourceTree = "<group>"; };
 		1053D0A6211F21F80064B5BB /* SKTileMapNode Scroll Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKTileMapNode Scroll Extension.swift"; sourceTree = "<group>"; };
+		10AD21E52128F49900583C9F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		10C25FEB211DCF5C0005DA43 /* RocketMan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RocketMan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		10C25FEE211DCF5C0005DA43 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		10C25FF0211DCF5C0005DA43 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 				10EF0A7A211DD10D00CF6F28 /* exhaust.sks */,
 				1053D09E211F165D0064B5BB /* thrust.m4a */,
 				1053D0A4211F1A4B0064B5BB /* BackgroundTiles.sks */,
+				10AD21E52128F49900583C9F /* Assets.xcassets */,
 			);
 			path = Content;
 			sourceTree = "<group>";
@@ -216,6 +219,7 @@
 				1053D09F211F165D0064B5BB /* thrust.m4a in Resources */,
 				10C25FF1211DCF5C0005DA43 /* GameScene.sks in Resources */,
 				10C25FFC211DCF5F0005DA43 /* Assets.xcassets in Resources */,
+				10AD21E72128F49900583C9F /* Assets.xcassets in Resources */,
 				10C25FFF211DCF5F0005DA43 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

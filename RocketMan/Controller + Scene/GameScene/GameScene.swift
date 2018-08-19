@@ -14,7 +14,6 @@ enum CollisionTypes: UInt32 {
   case player = 1
   case edge = 2
   case asteroid = 4
-  case shield = 8
 }
 
 class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {

@@ -30,8 +30,8 @@ class Asteroid: SKSpriteNode {
     self.physicsBody?.allowsRotation = true
     self.physicsBody?.restitution = 0
     self.physicsBody?.categoryBitMask = CollisionTypes.asteroid.rawValue
-    self.physicsBody?.collisionBitMask = CollisionTypes.player.rawValue | CollisionTypes.asteroid.rawValue | CollisionTypes.shield.rawValue
-    self.physicsBody?.contactTestBitMask = CollisionTypes.player.rawValue | CollisionTypes.shield.rawValue
+    self.physicsBody?.collisionBitMask = CollisionTypes.player.rawValue | CollisionTypes.asteroid.rawValue
+    self.physicsBody?.contactTestBitMask = CollisionTypes.player.rawValue
     massFactor = self.physicsBody!.mass * 10
   }
   
