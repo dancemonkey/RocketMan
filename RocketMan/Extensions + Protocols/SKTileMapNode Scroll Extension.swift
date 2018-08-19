@@ -16,11 +16,11 @@ extension SKTileMapNode {
     let moveReset = SKAction.moveBy(x: 0.0, y: self.tileSize.height, duration: 0)
     let moveLoop = SKAction.sequence([moveDown, moveReset])
     let moveForever = SKAction.repeatForever(moveLoop)
-    self.run(moveForever, withKey: "thrusting")
+    self.run(moveForever, withKey: Keys.thrusting.rawValue)
   }
   
   func stopThrust() {
-    if self.action(forKey: "thrusting") != nil {
+    if self.action(forKey: Keys.thrusting.rawValue) != nil {
       let slow = SKAction.speed(to: 0.0, duration: 1.0)
       let stop = SKAction.run {
         self.removeAllActions()

@@ -18,12 +18,11 @@ class Asteroid: SKSpriteNode {
   
   init() {
     let rand = GKRandomDistribution(forDieWithSideCount: 10)
-    let rockTexture = SKTexture(imageNamed: "meteor\(rand.nextInt())")
+    let rockTexture = SKTexture(imageNamed: "\(ImageName.meteor.rawValue)\(rand.nextInt())")
     let newSize = CGSize(width: rockTexture.size().width*2, height: rockTexture.size().height*2)
     super.init(texture: rockTexture, color: .clear, size: newSize)
     
     self.name = "asteroid"
-//    self.physicsBody = SKPhysicsBody(texture: rockTexture, size: self.size)
     self.physicsBody = SKPhysicsBody(circleOfRadius: self.size.width/2)
     self.physicsBody!.contactTestBitMask = self.physicsBody!.collisionBitMask
     self.physicsBody!.isDynamic = true
@@ -36,7 +35,7 @@ class Asteroid: SKSpriteNode {
   }
   
   func randomVector() -> CGVector {
-    let xRand = GKRandomDistribution(lowestValue: -20, highestValue: 20)
+    let xRand = GKRandomDistribution(lowestValue: -15, highestValue: 15)
     let yRand = GKRandomDistribution(lowestValue: -100, highestValue: -80)
     
     return CGVector(dx: CGFloat(xRand.nextInt()) * massFactor!, dy: CGFloat(yRand.nextInt()) * massFactor!)

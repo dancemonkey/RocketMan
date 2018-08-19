@@ -16,6 +16,25 @@ enum CollisionTypes: UInt32 {
   case asteroid = 4
 }
 
+enum ImageName: String {
+  case player
+  case shield
+  case meteor
+}
+
+enum Keys: String {
+  case thrusting
+  case rechargingShields
+  case drainingShields
+  case lowEnergyFlashing
+}
+
+enum GameState {
+  case logo
+  case playing
+  case gameOver
+}
+
 class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
   
   var player: RocketNode!
@@ -38,22 +57,22 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
     return (left: leftX, right: rightX)
   }
   var asteroids = [Asteroid]()
+  private var asteroidDelay: Int = 5
+  private var logo: SKLabelNode!
+  private var gameOver: SKLabelNode!
+  private var gameState: GameState = .logo
   
   override func didMove(to view: SKView) {
     createBackground()
     createPlayer()
     createEnergyDisplay()
     createBoundaries()
+    createLogos()
     motionManager = CMMotionManager()
     motionManager.startAccelerometerUpdates()
     
     physicsWorld.gravity = .zero
     physicsWorld.contactDelegate = self
-    
-    // temp for now, will need to tap to start game eventually
-    player.createPlume()
-    thrusting = true
-    startAsteroidBelt()
   }
   
   override func update(_ currentTime: TimeInterval) {
@@ -68,7 +87,6 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
     }
     
     #if targetEnvironment(simulator)
-    print("no tilting in simulator, try this on a device")
     #else
     if let accelerometerData = motionManager.accelerometerData {
       player.physicsBody?.applyImpulse(CGVector(dx: accelerometerData.acceleration.x * 10, dy: 0.0))
@@ -78,10 +96,10 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
   
   func startAsteroidBelt() {
     let create = SKAction.run {
-      let xRand = GKRandomDistribution(lowestValue: 0, highestValue: Int(self.frame.width))
+      let xRand = GKRandomDistribution(lowestValue: 20, highestValue: Int(self.frame.width - 20))
       self.createAsteroid(at: CGPoint(x: xRand.nextInt(), y: Int(self.frame.height + 100)))
     }
-    let randomCreate = GKRandomDistribution(forDieWithSideCount: 6)
+    let randomCreate = GKRandomDistribution(forDieWithSideCount: asteroidDelay)
     let wait = SKAction.wait(forDuration: TimeInterval(randomCreate.nextInt()))
     let sequence = SKAction.sequence([create, wait])
     let repeatForever = SKAction.repeatForever(sequence)
@@ -152,7 +170,27 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
   }
   
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    player.activateShields()
+    switch gameState {
+    case .logo:
+      gameState = .playing
+      let fadeOut = SKAction.fadeOut(withDuration: 0.5)
+      let remove = SKAction.removeFromParent()
+      let wait = SKAction.wait(forDuration: 0.5)
+      let startGame = SKAction.run { [ unowned self ] in
+        self.startAsteroidBelt()
+        self.player.createPlume()
+        self.thrusting = true
+      }
+      
+      let sequence = SKAction.sequence([fadeOut, wait, startGame, remove])
+      logo.run(sequence)
+    case .playing:
+      player.activateShields()
+    case .gameOver:
+      let scene = GameScene(fileNamed: "GameScene")!
+      let transition = SKTransition.moveIn(with: .right, duration: 1)
+      self.view?.presentScene(scene, transition: transition)
+    }
   }
   
   override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -160,14 +198,26 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
   }
   
   func destroyRocket() {
-    print("rocket destroyed")
     if let explosion = SKEmitterNode(fileNamed: "explosion") {
       explosion.position = player.position
       player.removePlume()
       player.removeAllActions()
-      player.removeFromParent()
       addChild(explosion)
+      player.removeFromParent()
+      gameOver.alpha = 1
+      gameState = .gameOver
     }
+  }
+  
+  func createLogos() {
+    logo = SKLabelNode(text: "ROCKET")
+    logo.position = CGPoint(x: frame.midX, y: frame.midY)
+    addChild(logo)
+    
+    gameOver = SKLabelNode(text: "GAME OVER")
+    gameOver.position = CGPoint(x: frame.midX, y: frame.midY)
+    gameOver.alpha = 0
+    addChild(gameOver)
   }
   
   func didBegin(_ contact: SKPhysicsContact) {

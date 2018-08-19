@@ -32,9 +32,11 @@ class RocketNode: SKSpriteNode {
   private var _velocity: Double?
   private var _thrusting: Bool = false
   weak var uiDelegate: UIRocketDelegate?
+  private var rechargeRate: Double = 2
+  private var drainRate: Double = 2
   
   init() {
-    let playerTexture = SKTexture(imageNamed: "player")
+    let playerTexture = SKTexture(imageNamed: ImageName.player.rawValue)
     let originalSize = playerTexture.size()
     let newSize = CGSize(width: originalSize.width/2, height: originalSize.height/2)
     super.init(texture: playerTexture, color: .clear, size: newSize)
@@ -64,40 +66,40 @@ class RocketNode: SKSpriteNode {
   func rechargeShields() {
     let wait = SKAction.wait(forDuration: 1.2)
     let recharge = SKAction.run {
-      self._shieldEnergyLevel = self._shieldEnergyLevel + 1
+      self._shieldEnergyLevel = self._shieldEnergyLevel + self.rechargeRate
       self.uiDelegate?.setEnergy(to: self._shieldEnergyLevel)
     }
     let sequence = SKAction.sequence([wait, recharge])
     let loop = SKAction.repeatForever(sequence)
-    self.run(loop, withKey: "rechargingShields")
+    self.run(loop, withKey: Keys.rechargingShields.rawValue)
   }
   
   func stopRechargingShields() {
-    if action(forKey: "rechargingShields") != nil {
-      self.removeAction(forKey: "rechargingShields")
+    if action(forKey: Keys.rechargingShields.rawValue) != nil {
+      self.removeAction(forKey: Keys.rechargingShields.rawValue)
     }
   }
   
   func drainShields() {
     let wait = SKAction.wait(forDuration: 1.0)
     let drain = SKAction.run {
-      self._shieldEnergyLevel = self._shieldEnergyLevel - 2
+      self._shieldEnergyLevel = self._shieldEnergyLevel - self.drainRate
       self.uiDelegate?.setEnergy(to: self._shieldEnergyLevel)
     }
     let sequence = SKAction.sequence([wait, drain])
     let loop = SKAction.repeatForever(sequence)
-    self.run(loop, withKey: "drainingShields")
+    self.run(loop, withKey: Keys.drainingShields.rawValue)
   }
   
   func stopDrainingShields() {
-    if action(forKey: "drainingShields") != nil {
-      self.removeAction(forKey: "drainingShields")
+    if action(forKey: Keys.drainingShields.rawValue) != nil {
+      self.removeAction(forKey: Keys.drainingShields.rawValue)
     }
   }
   
   func activateShields() {
     if _shield == nil {
-      let shieldTexture = SKTexture(imageNamed: "shield")
+      let shieldTexture = SKTexture(imageNamed: ImageName.shield.rawValue)
       _shield = SKSpriteNode(texture: shieldTexture)
       _shield?.size = CGSize(width: _shield!.size.width, height: _shield!.size.height * 2)
       _shield?.zPosition = self.zPosition + 1
@@ -127,10 +129,6 @@ class RocketNode: SKSpriteNode {
       _exhaustPlume?.zPosition = 11
       addChild(_exhaustPlume!)
     }
-    if let soundURL = Bundle.main.url(forResource: "thrust", withExtension: "m4a") {
-      _thrusterAudio = SKAudioNode(url: soundURL)
-      addChild(_thrusterAudio!)
-    }
   }
   
   func removePlume() {
@@ -144,10 +142,13 @@ class RocketNode: SKSpriteNode {
   }
   
   func impact(by asteroid: Asteroid) {
-    print("rocket hit by object \(asteroid.name!) with mass \(asteroid.massFactor!)")
     if shieldsUp {
-      damageShields(by: Double(asteroid.massFactor!) * 2)
-      print("shields damaged by \(Double(asteroid.massFactor!) * 2)")
+      let damage = Double(asteroid.massFactor!) * 2
+      if damage > _shieldEnergyLevel {
+        uiDelegate?.destroyRocket()
+      } else {
+        damageShields(by: damage)
+      }
     } else {
       uiDelegate?.destroyRocket()
     }
