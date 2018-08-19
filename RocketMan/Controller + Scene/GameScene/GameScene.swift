@@ -128,6 +128,7 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
     self.physicsBody?.restitution = 0
     self.physicsBody?.categoryBitMask = CollisionTypes.edge.rawValue
     self.physicsBody?.collisionBitMask = CollisionTypes.player.rawValue
+    self.name = "border"
   }
   
   func asteroidOutOfBounds(_ asteroid: Asteroid) -> Bool {
@@ -160,6 +161,18 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
   
   func didBegin(_ contact: SKPhysicsContact) {
     
+    if contact.bodyA.node == player || contact.bodyB.node == player {
+      if contact.bodyA.node?.name == "border" || contact.bodyB.node?.name == "border" {
+        return
+      }
+      if contact.bodyA.node == player {
+        player.impact(by: contact.bodyB.node! as! Asteroid)
+      } else {
+        player.impact(by: contact.bodyA.node! as! Asteroid)
+      }
+    } else {
+      return
+    }
   }
   
 }

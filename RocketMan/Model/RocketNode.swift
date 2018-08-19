@@ -20,6 +20,9 @@ class RocketNode: SKSpriteNode {
       if _shieldEnergyLevel >= 100 {
         stopRechargingShields()
         _shieldEnergyLevel = 100
+      } else if _shieldEnergyLevel <= 0 {
+        _shieldEnergyLevel = 0
+        deactivateShields()
       }
     }
   }
@@ -41,6 +44,21 @@ class RocketNode: SKSpriteNode {
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  func initializePhysicsBody() {
+    self.physicsBody = SKPhysicsBody(texture: self.texture!, size: self.size)
+    self.physicsBody!.contactTestBitMask = self.physicsBody!.collisionBitMask
+    self.physicsBody!.isDynamic = true
+    self.physicsBody!.allowsRotation = false
+    self.physicsBody!.restitution = 0
+    self.physicsBody!.categoryBitMask = CollisionTypes.player.rawValue
+    self.physicsBody!.collisionBitMask = CollisionTypes.asteroid.rawValue | CollisionTypes.edge.rawValue
+  }
+  
+  func damageShields(by amount: Double) {
+    _shieldEnergyLevel = _shieldEnergyLevel - amount
+    uiDelegate?.setEnergy(to: self._shieldEnergyLevel)
   }
   
   func rechargeShields() {
@@ -92,16 +110,6 @@ class RocketNode: SKSpriteNode {
     drainShields()
   }
   
-  func initializePhysicsBody() {
-    self.physicsBody = SKPhysicsBody(texture: self.texture!, size: self.size)
-    self.physicsBody!.contactTestBitMask = self.physicsBody!.collisionBitMask
-    self.physicsBody!.isDynamic = true
-    self.physicsBody!.allowsRotation = false
-    self.physicsBody!.restitution = 0
-    self.physicsBody!.categoryBitMask = CollisionTypes.player.rawValue
-    self.physicsBody!.collisionBitMask = CollisionTypes.asteroid.rawValue | CollisionTypes.edge.rawValue
-  }
-  
   func deactivateShields() {
     if _shield != nil {
       _shield?.removeFromParent()
@@ -132,6 +140,17 @@ class RocketNode: SKSpriteNode {
     }
     if _thrusterAudio != nil {
       _thrusterAudio?.removeFromParent()
+    }
+  }
+  
+  func impact(by asteroid: Asteroid) {
+    print("rocket hit by object \(asteroid.name!) with mass \(asteroid.massFactor!)")
+    if shieldsUp {
+      damageShields(by: Double(asteroid.massFactor!) * 2)
+      print("shields damaged by \(Double(asteroid.massFactor!) * 2)")
+    } else {
+      // destroy ship
+      print("ship destroyed")
     }
   }
   
