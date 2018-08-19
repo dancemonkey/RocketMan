@@ -23,7 +23,8 @@ class Asteroid: SKSpriteNode {
     super.init(texture: rockTexture, color: .clear, size: newSize)
     
     self.name = "asteroid"
-    self.physicsBody = SKPhysicsBody(texture: rockTexture, size: self.size)
+//    self.physicsBody = SKPhysicsBody(texture: rockTexture, size: self.size)
+    self.physicsBody = SKPhysicsBody(circleOfRadius: self.size.width/2)
     self.physicsBody!.contactTestBitMask = self.physicsBody!.collisionBitMask
     self.physicsBody!.isDynamic = true
     self.physicsBody?.allowsRotation = true
