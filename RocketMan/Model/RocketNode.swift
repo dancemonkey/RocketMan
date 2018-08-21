@@ -32,8 +32,8 @@ class RocketNode: SKSpriteNode {
   private var _velocity: Double?
   private var _thrusting: Bool = false
   weak var uiDelegate: UIRocketDelegate?
-  private var rechargeRate: Double = 2
-  private var drainRate: Double = 2
+  private var rechargeRate: Double = 1
+  private var drainRate: Double = 3
   
   init() {
     let playerTexture = SKTexture(imageNamed: ImageName.player.rawValue)

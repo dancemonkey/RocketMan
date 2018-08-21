@@ -60,6 +60,7 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
   private var asteroidDelay: Int = 5
   private var logo: SKLabelNode!
   private var gameOver: SKLabelNode!
+  var hint: SKLabelNode!
   private var gameState: GameState = .logo
   
   override func didMove(to view: SKView) {
@@ -67,7 +68,7 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
     createPlayer()
     createEnergyDisplay()
     createBoundaries()
-    createLogos()
+    createLabels()
     motionManager = CMMotionManager()
     motionManager.startAccelerometerUpdates()
     
@@ -182,13 +183,21 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
         self.thrusting = true
       }
       
-      let sequence = SKAction.sequence([fadeOut, wait, startGame, remove])
-      logo.run(sequence)
+      let logoSequence = SKAction.sequence([fadeOut, wait, startGame, remove])
+      logo.run(logoSequence)
+      let newHint = SKAction.run {
+        self.hint.text = "Tap & hold for shields"
+      }
+      let hintWait = SKAction.wait(forDuration: 3)
+      let hintSequence = SKAction.sequence([newHint, hintWait, fadeOut, remove])
+      hint.run(hintSequence)
+      
     case .playing:
       player.activateShields()
     case .gameOver:
       let scene = GameScene(fileNamed: "GameScene")!
-      let transition = SKTransition.moveIn(with: .right, duration: 1)
+      scene.scaleMode = .aspectFill
+      let transition = SKTransition.flipVertical(withDuration: 1)
       self.view?.presentScene(scene, transition: transition)
     }
   }
@@ -202,22 +211,34 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
       explosion.position = player.position
       player.removePlume()
       player.removeAllActions()
+      setEnergy(to: 0)
       addChild(explosion)
       player.removeFromParent()
+      self.thrusting = false
       gameOver.alpha = 1
+      hint.text = "Tap to restart"
+      hint.alpha = 1.0
+      addChild(hint)
       gameState = .gameOver
     }
   }
   
-  func createLogos() {
+  func createLabels() {
     logo = SKLabelNode(text: "ROCKET")
+    logo.fontSize = 75.0
     logo.position = CGPoint(x: frame.midX, y: frame.midY)
     addChild(logo)
     
     gameOver = SKLabelNode(text: "GAME OVER")
+    gameOver.fontSize = 75.0
     gameOver.position = CGPoint(x: frame.midX, y: frame.midY)
     gameOver.alpha = 0
     addChild(gameOver)
+    
+    hint = SKLabelNode(text: "Tap to start")
+    hint.fontSize = 40.0
+    hint.position = CGPoint(x: frame.midX, y: (player.position.y - player.size.height))
+    addChild(hint)
   }
   
   func didBegin(_ contact: SKPhysicsContact) {

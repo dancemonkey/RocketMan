@@ -71,14 +71,12 @@ class EnergyDisplay: SKSpriteNode {
     let sequence = SKAction.sequence([dangerColor, wait, originalColor, wait])
     let repeatForever = SKAction.repeatForever(sequence)
     self._outerRect.run(repeatForever, withKey: Keys.lowEnergyFlashing.rawValue)
-    print("I should be flashing")
   }
   
   func stopFlashing() {
     if self._outerRect.action(forKey: Keys.lowEnergyFlashing.rawValue) != nil {
       self._outerRect.removeAction(forKey: Keys.lowEnergyFlashing.rawValue)
       self._outerRect.strokeColor = .white
-      print("I should be done flashing")
     }
   }
   
