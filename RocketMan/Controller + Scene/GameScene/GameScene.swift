@@ -57,7 +57,7 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
     return (left: leftX, right: rightX)
   }
   var asteroids = [Asteroid]()
-  private var asteroidDelay: Int = 5
+  private var asteroidDelay: Int = 3
   private var logo: SKLabelNode!
   private var gameOver: SKLabelNode!
   var hint: SKLabelNode!
@@ -218,6 +218,9 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
       gameOver.alpha = 1
       hint.text = "Tap to restart"
       hint.alpha = 1.0
+      if hint.inParentHierarchy(self) {
+        hint.removeFromParent()
+      }
       addChild(hint)
       gameState = .gameOver
     }
@@ -248,9 +251,9 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
         return
       }
       if contact.bodyA.node == player {
-        player.impact(by: contact.bodyB.node! as! Asteroid)
+        player.impact(by: contact.bodyB.node! as! Asteroid, at: contact.contactPoint)
       } else {
-        player.impact(by: contact.bodyA.node! as! Asteroid)
+        player.impact(by: contact.bodyA.node! as! Asteroid, at: contact.contactPoint)
       }
     } else {
       return

@@ -23,6 +23,7 @@
 		10C25FFC211DCF5F0005DA43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10C25FFB211DCF5F0005DA43 /* Assets.xcassets */; };
 		10C25FFF211DCF5F0005DA43 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10C25FFD211DCF5F0005DA43 /* LaunchScreen.storyboard */; };
 		10C9F8BB2127070E0050788D /* Asteroid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C9F8BA2127070E0050788D /* Asteroid.swift */; };
+		10E1537C212C53FF00E6FA56 /* shieldImpact.sks in Resources */ = {isa = PBXBuildFile; fileRef = 10E1537B212C53FF00E6FA56 /* shieldImpact.sks */; };
 		10EF0A7B211DD10D00CF6F28 /* exhaust.sks in Resources */ = {isa = PBXBuildFile; fileRef = 10EF0A7A211DD10D00CF6F28 /* exhaust.sks */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +47,7 @@
 		10C25FFE211DCF5F0005DA43 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		10C26000211DCF5F0005DA43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		10C9F8BA2127070E0050788D /* Asteroid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Asteroid.swift; sourceTree = "<group>"; };
+		10E1537B212C53FF00E6FA56 /* shieldImpact.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = shieldImpact.sks; sourceTree = "<group>"; };
 		10EF0A7A211DD10D00CF6F28 /* exhaust.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = exhaust.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -103,6 +105,7 @@
 				1053D0A4211F1A4B0064B5BB /* BackgroundTiles.sks */,
 				10AD21E52128F49900583C9F /* Assets.xcassets */,
 				100BB2C321290DD100006068 /* explosion.sks */,
+				10E1537B212C53FF00E6FA56 /* shieldImpact.sks */,
 			);
 			path = Content;
 			sourceTree = "<group>";
@@ -222,6 +225,7 @@
 				1053D09F211F165D0064B5BB /* thrust.m4a in Resources */,
 				10C25FF1211DCF5C0005DA43 /* GameScene.sks in Resources */,
 				10C25FFC211DCF5F0005DA43 /* Assets.xcassets in Resources */,
+				10E1537C212C53FF00E6FA56 /* shieldImpact.sks in Resources */,
 				10AD21E72128F49900583C9F /* Assets.xcassets in Resources */,
 				10C25FFF211DCF5F0005DA43 /* LaunchScreen.storyboard in Resources */,
 				100BB2C421290DD100006068 /* explosion.sks in Resources */,

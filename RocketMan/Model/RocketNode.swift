@@ -141,13 +141,24 @@ class RocketNode: SKSpriteNode {
     }
   }
   
-  func impact(by asteroid: Asteroid) {
+  func impact(by asteroid: Asteroid, at contactPoint: CGPoint) {
     if shieldsUp {
       let damage = Double(asteroid.massFactor!) * 2
       if damage > _shieldEnergyLevel {
         uiDelegate?.destroyRocket()
       } else {
         damageShields(by: damage)
+        let impactFX = SKEmitterNode(fileNamed: "shieldImpact")
+        impactFX?.position = self.scene!.convert(contactPoint, to: self)
+        let addImpact = SKAction.run {
+          self.addChild(impactFX!)
+        }
+        let wait = SKAction.wait(forDuration: 1.5)
+        let removeImpact = SKAction.run {
+          impactFX?.removeFromParent()
+        }
+        let sequence = SKAction.sequence([addImpact, wait, removeImpact])
+        self.run(sequence)
       }
     } else {
       uiDelegate?.destroyRocket()
