@@ -57,7 +57,7 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
     return (left: leftX, right: rightX)
   }
   var asteroids = [Asteroid]()
-  private var asteroidDelay: Int = 3
+  private var asteroidDelay: Int = 5
   private var logo: SKLabelNode!
   private var gameOver: SKLabelNode!
   var hint: SKLabelNode!
@@ -74,6 +74,8 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
     
     physicsWorld.gravity = .zero
     physicsWorld.contactDelegate = self
+    
+    view.ignoresSiblingOrder = true
   }
   
   override func update(_ currentTime: TimeInterval) {
@@ -82,6 +84,8 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
     for (index, asteroid) in asteroids.enumerated() {
       asteroid.lifetime = asteroid.lifetime + 1
       if asteroidOutOfBounds(asteroid) && asteroid.lifetime > asteroid.minLifetime {
+        asteroid.physicsBody = nil
+        asteroid.removeAllActions()
         asteroid.removeFromParent()
         asteroids.remove(at: index)
       }
@@ -109,11 +113,12 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
   
   func createAsteroid(at point: CGPoint) {
     let asteroid = Asteroid()
+    let leftSide: Bool = point.x < (self.frame.width / 2) ? true : false
     asteroid.position = point
     asteroid.zPosition = -10
     addChild(asteroid)
     asteroids.append(asteroid)
-    asteroid.physicsBody?.applyImpulse(asteroid.randomVector())
+    asteroid.physicsBody?.applyImpulse(asteroid.randomVector(fromLeftSide: leftSide))
   }
   
   func createPlayer() {

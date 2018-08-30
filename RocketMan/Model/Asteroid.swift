@@ -32,13 +32,28 @@ class Asteroid: SKSpriteNode {
     self.physicsBody?.collisionBitMask = CollisionTypes.player.rawValue | CollisionTypes.asteroid.rawValue
     self.physicsBody?.contactTestBitMask = CollisionTypes.player.rawValue
     massFactor = self.physicsBody!.mass * 10
+    randomRotation()
   }
   
-  func randomVector() -> CGVector {
-    let xRand = GKRandomDistribution(lowestValue: -15, highestValue: 15)
+  func randomVector(fromLeftSide leftSide: Bool) -> CGVector {
+    var xRand: GKRandomDistribution
+    if leftSide {
+      xRand = GKRandomDistribution(lowestValue: 10, highestValue: 30)
+    } else {
+      xRand = GKRandomDistribution(lowestValue: -10, highestValue: -30)
+    }
     let yRand = GKRandomDistribution(lowestValue: -100, highestValue: -80)
     
     return CGVector(dx: CGFloat(xRand.nextInt()) * massFactor!, dy: CGFloat(yRand.nextInt()) * massFactor!)
+  }
+  
+  func randomRotation() {
+    let duration = GKRandomDistribution.d6()
+    let direction = GKRandomDistribution().nextBool()
+    let directionChange: CGFloat = direction == true ? 1 : -1
+    let rotate = SKAction.rotate(byAngle: (.pi * 2) * directionChange , duration: Double(duration.nextInt()))
+    let repeatRotate = SKAction.repeatForever(rotate)
+    self.run(repeatRotate)
   }
   
   required init?(coder aDecoder: NSCoder) {
