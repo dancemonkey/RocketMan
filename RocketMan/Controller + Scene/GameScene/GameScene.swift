@@ -57,7 +57,7 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
     return (left: leftX, right: rightX)
   }
   var asteroids = [Asteroid]()
-  private var asteroidDelay: Int = 5
+  private var asteroidDelay: Int = 6
   private var logo: SKLabelNode!
   private var gameOver: SKLabelNode!
   var hint: SKLabelNode!
@@ -100,11 +100,11 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
   }
   
   func startAsteroidBelt() {
+    let xRand = GKRandomDistribution(lowestValue: 20, highestValue: Int(self.frame.width - 20))
+    let randomCreate = GKRandomDistribution(forDieWithSideCount: asteroidDelay)
     let create = SKAction.run {
-      let xRand = GKRandomDistribution(lowestValue: 20, highestValue: Int(self.frame.width - 20))
       self.createAsteroid(at: CGPoint(x: xRand.nextInt(), y: Int(self.frame.height + 100)))
     }
-    let randomCreate = GKRandomDistribution(forDieWithSideCount: asteroidDelay)
     let wait = SKAction.wait(forDuration: TimeInterval(randomCreate.nextInt()))
     let sequence = SKAction.sequence([create, wait])
     let repeatForever = SKAction.repeatForever(sequence)
