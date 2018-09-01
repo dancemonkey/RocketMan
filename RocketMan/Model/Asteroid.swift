@@ -15,8 +15,6 @@ class Asteroid: SKSpriteNode {
   var lifetime: Double = 0
   var minLifetime: Double = 360
   var massFactor: CGFloat?
-  var xRand: GKRandomDistribution!
-  var yRand: GKRandomDistribution!
   
   init() {
     let rand = GKRandomDistribution(forDieWithSideCount: 10)
@@ -38,15 +36,14 @@ class Asteroid: SKSpriteNode {
   }
   
   func randomVector(fromLeftSide leftSide: Bool) -> CGVector {
-//    if leftSide {
-      xRand = GKRandomDistribution(lowestValue: 10, highestValue: 30)
-//    } else {
-//      xRand = GKRandomDistribution(lowestValue: -10, highestValue: -30)
-//    }
-    yRand = GKRandomDistribution(lowestValue: -100, highestValue: -80)
+    var xRand = GKRandomDistribution(lowestValue: 10, highestValue: 30).nextInt()
+    let yRand = GKRandomDistribution(lowestValue: -100, highestValue: -80).nextInt()
     
-//    return CGVector(dx: 0, dy: -90)
-    return CGVector(dx: CGFloat(xRand.nextInt()) * massFactor!, dy: CGFloat(yRand.nextInt()) * massFactor!)
+    if leftSide == false {
+      xRand = xRand * -1
+    }
+    
+    return CGVector(dx: CGFloat(xRand) * massFactor!, dy: CGFloat(yRand) * massFactor!)
   }
   
   func randomRotation() {

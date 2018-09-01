@@ -57,7 +57,7 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
     return (left: leftX, right: rightX)
   }
   var asteroids = [Asteroid]()
-  private var asteroidDelay: Int = 6
+  private var asteroidDelay: Int = 4
   private var logo: SKLabelNode!
   private var gameOver: SKLabelNode!
   var hint: SKLabelNode!
