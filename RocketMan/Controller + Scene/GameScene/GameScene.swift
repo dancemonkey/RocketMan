@@ -102,10 +102,10 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
   func startAsteroidBelt() {
     let xRand = GKRandomDistribution(lowestValue: 20, highestValue: Int(self.frame.width - 20))
     let randomCreate = GKRandomDistribution(forDieWithSideCount: asteroidDelay)
-    let create = SKAction.run {
+    let create = SKAction.run { [unowned self] in
       self.createAsteroid(at: CGPoint(x: xRand.nextInt(), y: Int(self.frame.height + 100)))
     }
-    let wait = SKAction.wait(forDuration: TimeInterval(randomCreate.nextInt()))
+    let wait = SKAction.wait(forDuration: Double(randomCreate.nextInt()))
     let sequence = SKAction.sequence([create, wait])
     let repeatForever = SKAction.repeatForever(sequence)
     run(repeatForever)
@@ -113,7 +113,7 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
   
   func createAsteroid(at point: CGPoint) {
     let asteroid = Asteroid()
-    let leftSide: Bool = point.x < (self.frame.width / 2) ? true : false
+    let leftSide: Bool = (point.x < (self.frame.midX)) ? true : false
     asteroid.position = point
     asteroid.zPosition = -10
     addChild(asteroid)
