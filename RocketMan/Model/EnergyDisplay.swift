@@ -26,12 +26,13 @@ class EnergyDisplay: SKSpriteNode {
   }
   private var _energyBar: SKShapeNode?
   private var _outerRect: SKShapeNode!
+  private var _lowShieldSound: SKAudioNode?
   private var _lowEnergyFlashing: Bool = false {
     willSet {
       if newValue == true {
-        startFlashing()
+        lowShieldsOn()
       } else {
-        stopFlashing()
+        lowShieldsOff()
       }
     }
   }
@@ -58,6 +59,30 @@ class EnergyDisplay: SKSpriteNode {
       self._energyLevel = 0
       self._energyBar?.yScale = 0.0
     }
+  }
+  
+  func lowShieldsOn() {
+    addShieldAlertSound()
+    startFlashing()
+  }
+  
+  func lowShieldsOff() {
+    removeShieldAlertSound()
+    stopFlashing()
+  }
+  
+  func addShieldAlertSound() {
+    if let sound = _lowShieldSound {
+      self.addChild(sound)
+    } else if let soundURL = Bundle.main.url(forResource: "lowShieldAlert", withExtension: "wav") {
+      _lowShieldSound = SKAudioNode(url: soundURL)
+      self.addChild(_lowShieldSound!)
+    }
+    _lowShieldSound?.run(SKAction.changeVolume(to: 10.0, duration: 0))
+  }
+  
+  func removeShieldAlertSound() {
+    _lowShieldSound?.removeFromParent()
   }
   
   func startFlashing() {

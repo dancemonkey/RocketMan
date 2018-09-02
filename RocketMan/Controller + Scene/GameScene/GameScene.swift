@@ -218,7 +218,10 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
       player.removeAllActions()
       setEnergy(to: 0)
       addChild(explosion)
+      let explosionSound = SKAction.playSoundFileNamed("explosion.mp3", waitForCompletion: false)
+      self.run(explosionSound)
       player.removeFromParent()
+      shieldEnergyDisplay.removeShieldAlertSound()
       self.thrusting = false
       gameOver.alpha = 1
       hint.text = "Tap to restart"
@@ -250,7 +253,6 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
   }
   
   func didBegin(_ contact: SKPhysicsContact) {
-    
     if contact.bodyA.node == player || contact.bodyB.node == player {
       if contact.bodyA.node?.name == "border" || contact.bodyB.node?.name == "border" {
         return
@@ -264,5 +266,4 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
       return
     }
   }
-  
 }

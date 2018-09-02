@@ -11,9 +11,13 @@
 		104DE41121206F1100AD4D38 /* EnergyDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104DE41021206F1100AD4D38 /* EnergyDisplay.swift */; };
 		104DE413212072F200AD4D38 /* UIRocketDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104DE412212072F200AD4D38 /* UIRocketDelegate.swift */; };
 		1053D099211F0CF20064B5BB /* RocketNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1053D098211F0CF20064B5BB /* RocketNode.swift */; };
-		1053D09F211F165D0064B5BB /* thrust.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 1053D09E211F165D0064B5BB /* thrust.m4a */; };
 		1053D0A5211F1A4B0064B5BB /* BackgroundTiles.sks in Resources */ = {isa = PBXBuildFile; fileRef = 1053D0A4211F1A4B0064B5BB /* BackgroundTiles.sks */; };
 		1053D0A7211F21F80064B5BB /* SKTileMapNode Scroll Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1053D0A6211F21F80064B5BB /* SKTileMapNode Scroll Extension.swift */; };
+		105812EF213C140400BD7827 /* shield.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 105812EA213C140300BD7827 /* shield.mp3 */; };
+		105812F0213C140400BD7827 /* explosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 105812EB213C140300BD7827 /* explosion.mp3 */; };
+		105812F1213C140400BD7827 /* lowShieldAlert.wav in Resources */ = {isa = PBXBuildFile; fileRef = 105812EC213C140400BD7827 /* lowShieldAlert.wav */; };
+		105812F2213C140400BD7827 /* shieldHit.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 105812ED213C140400BD7827 /* shieldHit.mp3 */; };
+		105812F3213C140400BD7827 /* engineLoop.wav in Resources */ = {isa = PBXBuildFile; fileRef = 105812EE213C140400BD7827 /* engineLoop.wav */; };
 		10AD21E72128F49900583C9F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10AD21E52128F49900583C9F /* Assets.xcassets */; };
 		10C25FEF211DCF5C0005DA43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C25FEE211DCF5C0005DA43 /* AppDelegate.swift */; };
 		10C25FF1211DCF5C0005DA43 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 10C25FF0211DCF5C0005DA43 /* GameScene.sks */; };
@@ -33,9 +37,13 @@
 		104DE412212072F200AD4D38 /* UIRocketDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIRocketDelegate.swift; sourceTree = "<group>"; };
 		1053D098211F0CF20064B5BB /* RocketNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketNode.swift; sourceTree = "<group>"; };
 		1053D09D211F14CF0064B5BB /* Kenney Future Narrow.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Kenney Future Narrow.ttf"; sourceTree = "<group>"; };
-		1053D09E211F165D0064B5BB /* thrust.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = thrust.m4a; sourceTree = "<group>"; };
 		1053D0A4211F1A4B0064B5BB /* BackgroundTiles.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = BackgroundTiles.sks; sourceTree = "<group>"; };
 		1053D0A6211F21F80064B5BB /* SKTileMapNode Scroll Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKTileMapNode Scroll Extension.swift"; sourceTree = "<group>"; };
+		105812EA213C140300BD7827 /* shield.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = shield.mp3; sourceTree = "<group>"; };
+		105812EB213C140300BD7827 /* explosion.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = explosion.mp3; sourceTree = "<group>"; };
+		105812EC213C140400BD7827 /* lowShieldAlert.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = lowShieldAlert.wav; sourceTree = "<group>"; };
+		105812ED213C140400BD7827 /* shieldHit.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = shieldHit.mp3; sourceTree = "<group>"; };
+		105812EE213C140400BD7827 /* engineLoop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = engineLoop.wav; sourceTree = "<group>"; };
 		10AD21E52128F49900583C9F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		10C25FEB211DCF5C0005DA43 /* RocketMan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RocketMan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		10C25FEE211DCF5C0005DA43 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -100,8 +108,12 @@
 		1053D09B211F14AC0064B5BB /* Content */ = {
 			isa = PBXGroup;
 			children = (
+				105812EE213C140400BD7827 /* engineLoop.wav */,
+				105812EB213C140300BD7827 /* explosion.mp3 */,
+				105812EC213C140400BD7827 /* lowShieldAlert.wav */,
+				105812EA213C140300BD7827 /* shield.mp3 */,
+				105812ED213C140400BD7827 /* shieldHit.mp3 */,
 				10EF0A7A211DD10D00CF6F28 /* exhaust.sks */,
-				1053D09E211F165D0064B5BB /* thrust.m4a */,
 				1053D0A4211F1A4B0064B5BB /* BackgroundTiles.sks */,
 				10AD21E52128F49900583C9F /* Assets.xcassets */,
 				100BB2C321290DD100006068 /* explosion.sks */,
@@ -219,16 +231,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				105812F0213C140400BD7827 /* explosion.mp3 in Resources */,
 				10C25FFA211DCF5C0005DA43 /* Main.storyboard in Resources */,
 				10EF0A7B211DD10D00CF6F28 /* exhaust.sks in Resources */,
 				1053D0A5211F1A4B0064B5BB /* BackgroundTiles.sks in Resources */,
-				1053D09F211F165D0064B5BB /* thrust.m4a in Resources */,
 				10C25FF1211DCF5C0005DA43 /* GameScene.sks in Resources */,
+				105812F1213C140400BD7827 /* lowShieldAlert.wav in Resources */,
+				105812F3213C140400BD7827 /* engineLoop.wav in Resources */,
 				10C25FFC211DCF5F0005DA43 /* Assets.xcassets in Resources */,
 				10E1537C212C53FF00E6FA56 /* shieldImpact.sks in Resources */,
 				10AD21E72128F49900583C9F /* Assets.xcassets in Resources */,
+				105812EF213C140400BD7827 /* shield.mp3 in Resources */,
 				10C25FFF211DCF5F0005DA43 /* LaunchScreen.storyboard in Resources */,
 				100BB2C421290DD100006068 /* explosion.sks in Resources */,
+				105812F2213C140400BD7827 /* shieldHit.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

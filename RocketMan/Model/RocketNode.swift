@@ -15,6 +15,8 @@ class RocketNode: SKSpriteNode {
   var shieldsUp: Bool = false
   private var _shield: SKSpriteNode?
   private var _thrusterAudio: SKAudioNode?
+  private var _shieldAudio: SKAudioNode?
+  private var _impactSound: SKAudioNode?
   private var _shieldEnergyLevel: Double = 100 {
     didSet {
       if _shieldEnergyLevel >= 100 {
@@ -107,15 +109,23 @@ class RocketNode: SKSpriteNode {
       _shield?.colorBlendFactor = 0.5
     }
     addChild(_shield!)
+    
+    if let shieldSound = _shieldAudio {
+      addChild(shieldSound)
+    } else if let shieldSoundURL = Bundle.main.url(forResource: "shield", withExtension: "mp3") {
+      _shieldAudio = SKAudioNode(url: shieldSoundURL)
+      addChild(_shieldAudio!)
+    }
+    _shieldAudio?.run(SKAction.changeVolume(to: 3.0, duration: 0))
+    
     shieldsUp = true
     stopRechargingShields()
     drainShields()
   }
   
   func deactivateShields() {
-    if _shield != nil {
-      _shield?.removeFromParent()
-    }
+    _shield?.removeFromParent()
+    _shieldAudio?.removeFromParent()
     shieldsUp = false
     stopDrainingShields()
     rechargeShields()
@@ -129,6 +139,13 @@ class RocketNode: SKSpriteNode {
       _exhaustPlume?.zPosition = 11
       addChild(_exhaustPlume!)
     }
+    if let thrustSound = _thrusterAudio {
+      addChild(thrustSound)
+    } else if let audio = Bundle.main.url(forResource: "engineLoop", withExtension: "wav") {
+      _thrusterAudio = SKAudioNode(url: audio)
+      addChild(_thrusterAudio!)
+    }
+    _thrusterAudio?.run((SKAction.changeVolume(to: 0.5, duration: 0)))
   }
   
   func removePlume() {
@@ -136,9 +153,12 @@ class RocketNode: SKSpriteNode {
     if _exhaustPlume != nil {
       _exhaustPlume?.removeFromParent()
     }
-    if _thrusterAudio != nil {
-      _thrusterAudio?.removeFromParent()
-    }
+    _thrusterAudio?.removeFromParent()
+  }
+  
+  func playImpactSound() {
+    let playSound = SKAction.playSoundFileNamed("shieldHit.mp3", waitForCompletion: false)
+    self.run(playSound)
   }
   
   func impact(by asteroid: Asteroid, at contactPoint: CGPoint) {
@@ -152,6 +172,7 @@ class RocketNode: SKSpriteNode {
         impactFX?.position = self.scene!.convert(contactPoint, to: self)
         let addImpact = SKAction.run {
           self.addChild(impactFX!)
+          self.playImpactSound()
         }
         let wait = SKAction.wait(forDuration: 1.5)
         let removeImpact = SKAction.run {
