@@ -163,6 +163,8 @@ class RocketNode: SKSpriteNode {
   
   func impact(by asteroid: Asteroid, at contactPoint: CGPoint) {
     if shieldsUp {
+      let generator = UIImpactFeedbackGenerator(style: .heavy)
+      generator.impactOccurred()
       let damage = Double(asteroid.massFactor!) * 2
       if damage > _shieldEnergyLevel {
         uiDelegate?.destroyRocket()

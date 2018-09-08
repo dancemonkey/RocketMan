@@ -213,11 +213,13 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
   
   func destroyRocket() {
     if let explosion = SKEmitterNode(fileNamed: "explosion") {
+      let generator = UINotificationFeedbackGenerator()
       explosion.position = player.position
       player.removePlume()
       player.removeAllActions()
       setEnergy(to: 0)
       addChild(explosion)
+      generator.notificationOccurred(.error)
       let explosionSound = SKAction.playSoundFileNamed("explosion.mp3", waitForCompletion: false)
       self.run(explosionSound)
       player.removeFromParent()
