@@ -62,20 +62,38 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
   private var gameOver: SKLabelNode!
   var hint: SKLabelNode!
   private var gameState: GameState = .logo
+  let generator = UINotificationFeedbackGenerator()
   
   override func didMove(to view: SKView) {
+//    createBackground()
+//    createPlayer()
+//    createEnergyDisplay()
+//    createBoundaries()
+//    createLabels()
+//    motionManager = CMMotionManager()
+//    motionManager.startAccelerometerUpdates()
+//    generator.prepare()
+//
+//    physicsWorld.gravity = .zero
+//    physicsWorld.contactDelegate = self
+//
+//    view.ignoresSiblingOrder = true
+  }
+  
+  override func sceneDidLoad() {
+    super.sceneDidLoad()
     createBackground()
     createPlayer()
     createEnergyDisplay()
     createBoundaries()
     createLabels()
     motionManager = CMMotionManager()
-    motionManager.startAccelerometerUpdates()
+    generator.prepare()
     
     physicsWorld.gravity = .zero
     physicsWorld.contactDelegate = self
     
-    view.ignoresSiblingOrder = true
+    view?.ignoresSiblingOrder = true
   }
   
   override func update(_ currentTime: TimeInterval) {
@@ -186,6 +204,7 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
         self.startAsteroidBelt()
         self.player.createPlume()
         self.thrusting = true
+        self.motionManager.startAccelerometerUpdates()
       }
       
       let logoSequence = SKAction.sequence([fadeOut, wait, startGame, remove])
@@ -213,7 +232,6 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
   
   func destroyRocket() {
     if let explosion = SKEmitterNode(fileNamed: "explosion") {
-      let generator = UINotificationFeedbackGenerator()
       explosion.position = player.position
       player.removePlume()
       player.removeAllActions()

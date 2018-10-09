@@ -35,13 +35,15 @@ class RocketNode: SKSpriteNode {
   private var _thrusting: Bool = false
   weak var uiDelegate: UIRocketDelegate?
   private var rechargeRate: Double = 1
-  private var drainRate: Double = 3
+  private var drainRate: Double = 9
+  private let generator = UIImpactFeedbackGenerator(style: .heavy)
   
   init() {
     let playerTexture = SKTexture(imageNamed: ImageName.player.rawValue)
     let originalSize = playerTexture.size()
     let newSize = CGSize(width: originalSize.width/2, height: originalSize.height/2)
     super.init(texture: playerTexture, color: .clear, size: newSize)
+    generator.prepare()
     
     initializePhysicsBody()
   }
@@ -163,9 +165,8 @@ class RocketNode: SKSpriteNode {
   
   func impact(by asteroid: Asteroid, at contactPoint: CGPoint) {
     if shieldsUp {
-      let generator = UIImpactFeedbackGenerator(style: .heavy)
       generator.impactOccurred()
-      let damage = Double(asteroid.massFactor!) * 2
+      let damage = Double(asteroid.massFactor!) * 1.5
       if damage > _shieldEnergyLevel {
         uiDelegate?.destroyRocket()
       } else {
