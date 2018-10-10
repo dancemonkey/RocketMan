@@ -29,6 +29,10 @@ enum Keys: String {
   case lowEnergyFlashing
 }
 
+enum UserDefaultKeys: String {
+  case highScore
+}
+
 enum GameState {
   case logo
   case playing
@@ -39,6 +43,8 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
   
   var player: RocketNode!
   var shieldEnergyDisplay: EnergyDisplay!
+  var scoreDisplay: ScoreDisplay!
+  var scoring = false
   var exhaustPlume: SKEmitterNode?
   var background: SKTileMapNode!
   var thrusting: Bool = false {
@@ -65,19 +71,7 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
   let generator = UINotificationFeedbackGenerator()
   
   override func didMove(to view: SKView) {
-//    createBackground()
-//    createPlayer()
-//    createEnergyDisplay()
-//    createBoundaries()
-//    createLabels()
-//    motionManager = CMMotionManager()
-//    motionManager.startAccelerometerUpdates()
-//    generator.prepare()
-//
-//    physicsWorld.gravity = .zero
-//    physicsWorld.contactDelegate = self
-//
-//    view.ignoresSiblingOrder = true
+
   }
   
   override func sceneDidLoad() {
@@ -87,6 +81,7 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
     createEnergyDisplay()
     createBoundaries()
     createLabels()
+    setupScore()
     motionManager = CMMotionManager()
     generator.prepare()
     
@@ -101,7 +96,10 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
     
     for (index, asteroid) in asteroids.enumerated() {
       asteroid.lifetime = asteroid.lifetime + 1
-      if asteroidOutOfBounds(asteroid) && asteroid.lifetime > asteroid.minLifetime {
+      if asteroidOutOfBounds(asteroid) && asteroid.position.y < -50 {
+        if scoring {
+          scoreDisplay.addToScore(score: Int(asteroid.massFactor!))
+        }
         asteroid.physicsBody = nil
         asteroid.removeAllActions()
         asteroid.removeFromParent()
@@ -115,6 +113,21 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
       player.physicsBody?.applyImpulse(CGVector(dx: accelerometerData.acceleration.x * 10, dy: 0.0))
     }
     #endif
+  }
+  
+  func setupScore() {
+    scoreDisplay = ScoreDisplay()
+    scoreDisplay.zPosition = 0
+    scoreDisplay.position = CGPoint(x: self.frame.width - 125, y: self.frame.height - 40)
+    addChild(scoreDisplay)
+    scoring = true
+  }
+  
+  func createEnergyDisplay() {
+    shieldEnergyDisplay = EnergyDisplay(withColor: .blue)
+    shieldEnergyDisplay.zPosition = 0
+    shieldEnergyDisplay.position = CGPoint(x: 5, y: 5)
+    addChild(shieldEnergyDisplay)
   }
   
   func startAsteroidBelt() {
@@ -156,13 +169,6 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
     }
     self.background = spaceBg
     background.zPosition = -30
-  }
-  
-  func createEnergyDisplay() {
-    shieldEnergyDisplay = EnergyDisplay(withColor: .blue)
-    shieldEnergyDisplay.zPosition = 0
-    shieldEnergyDisplay.position = CGPoint(x: 5, y: 5)
-    addChild(shieldEnergyDisplay)
   }
   
   func createBoundaries() {
@@ -220,7 +226,7 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
       player.activateShields()
     case .gameOver:
       let scene = GameScene(fileNamed: "GameScene")!
-      scene.scaleMode = .aspectFill
+      scene.scaleMode = .aspectFit
       let transition = SKTransition.flipVertical(withDuration: 1)
       self.view?.presentScene(scene, transition: transition)
     }
@@ -232,11 +238,13 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
   
   func destroyRocket() {
     if let explosion = SKEmitterNode(fileNamed: "explosion") {
+      scoring = false
       explosion.position = player.position
       player.removePlume()
       player.removeAllActions()
       setEnergy(to: 0)
       addChild(explosion)
+      scoreDisplay.setNewHighScore()
       generator.notificationOccurred(.error)
       let explosionSound = SKAction.playSoundFileNamed("explosion.mp3", waitForCompletion: false)
       self.run(explosionSound)

@@ -26,6 +26,7 @@
 		10C25FFA211DCF5C0005DA43 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10C25FF8211DCF5C0005DA43 /* Main.storyboard */; };
 		10C25FFC211DCF5F0005DA43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10C25FFB211DCF5F0005DA43 /* Assets.xcassets */; };
 		10C25FFF211DCF5F0005DA43 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10C25FFD211DCF5F0005DA43 /* LaunchScreen.storyboard */; };
+		10C8F95B216E32220025E90D /* ScoreDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C8F95A216E32220025E90D /* ScoreDisplay.swift */; };
 		10C9F8BB2127070E0050788D /* Asteroid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C9F8BA2127070E0050788D /* Asteroid.swift */; };
 		10E1537C212C53FF00E6FA56 /* shieldImpact.sks in Resources */ = {isa = PBXBuildFile; fileRef = 10E1537B212C53FF00E6FA56 /* shieldImpact.sks */; };
 		10EF0A7B211DD10D00CF6F28 /* exhaust.sks in Resources */ = {isa = PBXBuildFile; fileRef = 10EF0A7A211DD10D00CF6F28 /* exhaust.sks */; };
@@ -54,6 +55,7 @@
 		10C25FFB211DCF5F0005DA43 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		10C25FFE211DCF5F0005DA43 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		10C26000211DCF5F0005DA43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		10C8F95A216E32220025E90D /* ScoreDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreDisplay.swift; sourceTree = "<group>"; };
 		10C9F8BA2127070E0050788D /* Asteroid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Asteroid.swift; sourceTree = "<group>"; };
 		10E1537B212C53FF00E6FA56 /* shieldImpact.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = shieldImpact.sks; sourceTree = "<group>"; };
 		10EF0A7A211DD10D00CF6F28 /* exhaust.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = exhaust.sks; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 				1053D098211F0CF20064B5BB /* RocketNode.swift */,
 				104DE41021206F1100AD4D38 /* EnergyDisplay.swift */,
 				10C9F8BA2127070E0050788D /* Asteroid.swift */,
+				10C8F95A216E32220025E90D /* ScoreDisplay.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 				10C25FF5211DCF5C0005DA43 /* GameScene.swift in Sources */,
 				1053D099211F0CF20064B5BB /* RocketNode.swift in Sources */,
 				10C25FF7211DCF5C0005DA43 /* GameViewController.swift in Sources */,
+				10C8F95B216E32220025E90D /* ScoreDisplay.swift in Sources */,
 				104DE413212072F200AD4D38 /* UIRocketDelegate.swift in Sources */,
 				10C9F8BB2127070E0050788D /* Asteroid.swift in Sources */,
 				10C25FEF211DCF5C0005DA43 /* AppDelegate.swift in Sources */,
