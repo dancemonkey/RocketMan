@@ -71,7 +71,7 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
   let generator = UINotificationFeedbackGenerator()
   
   override func didMove(to view: SKView) {
-
+    
   }
   
   override func sceneDidLoad() {
@@ -110,7 +110,7 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
     #if targetEnvironment(simulator)
     #else
     if let accelerometerData = motionManager.accelerometerData {
-      player.physicsBody?.applyImpulse(CGVector(dx: accelerometerData.acceleration.x * 10, dy: 0.0))
+      self.player.physicsBody?.applyImpulse(CGVector(dx: accelerometerData.acceleration.x * 10, dy: 0.0))
     }
     #endif
   }
@@ -149,7 +149,13 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
     asteroid.zPosition = -10
     addChild(asteroid)
     asteroids.append(asteroid)
-    asteroid.physicsBody?.applyImpulse(asteroid.randomVector(fromLeftSide: leftSide))
+    
+    if playerHuggingEdge() {
+      asteroid.position.x = player.position.x
+      asteroid.physicsBody?.applyImpulse(asteroid.straightLineVector())
+    } else {
+      asteroid.physicsBody?.applyImpulse(asteroid.randomVector(fromLeftSide: leftSide))
+    }
   }
   
   func createPlayer() {
@@ -234,6 +240,13 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
   
   override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
     player.deactivateShields()
+  }
+  
+  func playerHuggingEdge() -> Bool {
+    if player.position.x < player.size.width || player.position.x > (self.size.width - player.size.width) {
+      return true
+    }
+    return false
   }
   
   func destroyRocket() {

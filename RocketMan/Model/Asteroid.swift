@@ -46,6 +46,12 @@ class Asteroid: SKSpriteNode {
     return CGVector(dx: CGFloat(xRand) * massFactor!, dy: CGFloat(yRand) * massFactor!)
   }
   
+  func straightLineVector() -> CGVector {
+    let yRand = GKRandomDistribution(lowestValue: -100, highestValue: -80).nextInt()
+
+    return CGVector(dx: 0.0, dy: CGFloat(yRand) * massFactor!)
+  }
+  
   func randomRotation() {
     let duration = GKRandomDistribution.d6()
     let direction = GKRandomDistribution().nextBool()
