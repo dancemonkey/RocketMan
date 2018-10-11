@@ -43,6 +43,7 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
   
   var player: RocketNode!
   var shieldEnergyDisplay: EnergyDisplay!
+  var worldLayer: SKNode!
   var scoreDisplay: ScoreDisplay!
   var scoring = false
   var exhaustPlume: SKEmitterNode?
@@ -76,6 +77,7 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
   
   override func sceneDidLoad() {
     super.sceneDidLoad()
+    setupWorldLayer()
     createBackground()
     createPlayer()
     createEnergyDisplay()
@@ -114,6 +116,13 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
     }
     #endif
   }
+  
+  func setupWorldLayer() {
+    worldLayer = SKNode()
+    worldLayer.position = frame.origin
+    self.addChild(worldLayer)
+  }
+  
   
   func setupScore() {
     scoreDisplay = ScoreDisplay()
@@ -166,7 +175,8 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
     player.name = "player"
     let constraint = SKConstraint.positionY(SKRange(lowerLimit: frame.midY - player.size.height, upperLimit: frame.midY - player.size.height))
     player.constraints = [constraint]
-    addChild(player)
+    worldLayer.addChild(player)
+//    addChild(player)
   }
   
   func createBackground() {
@@ -300,8 +310,10 @@ class GameScene: SKScene, UIRocketDelegate, SKPhysicsContactDelegate {
       }
       if contact.bodyA.node == player {
         player.impact(by: contact.bodyB.node! as! Asteroid, at: contact.contactPoint)
+        worldLayer.run(SKAction.shake(initialPosition: worldLayer.position, duration: 0.5, amplitudeX: 6, amplitudeY: 6))
       } else {
         player.impact(by: contact.bodyA.node! as! Asteroid, at: contact.contactPoint)
+        worldLayer.run(SKAction.shake(initialPosition: worldLayer.position, duration: 2.0, amplitudeX: 6, amplitudeY: 6))
       }
     } else {
       return
